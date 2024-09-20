@@ -2,7 +2,8 @@ SOURCES_DIR = src/
 
 SOURCES_FLS	=	main.c \
 				bindings/bindings.c \
-				initialization/initialization.c 
+				freeing/exit_clean.c \
+				initialization/initialization.c \
 
 
 
