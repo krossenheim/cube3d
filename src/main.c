@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:04 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/09/21 12:40:06 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/09/21 14:26:44 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int main()
     program = initialize_program();
     if (!program)
         return (0);
-    bind_keys(program);
     printf("Hello World\n");
     exit_clean(program);
     return (0);

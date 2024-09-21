@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 14:04:40 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/09/21 13:20:31 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/09/21 14:28:35 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static bool    initialize_mlx(t_program *prg)
 	prg->mlx_img = mlx_new_image(prg->mlx, WIN_HORI, WIN_VERT);
 	prg->mlx_img->data = mlx_get_data_addr(prg->mlx_img, &prg->mlx_img->bpp,
 			&prg->mlx_img->size_line, &prg->mlx_img->image->byte_order);
-    bind_keys(prg);
+    do_mlx_hooks(prg);
     mlx_loop(prg->mlx);
     return (true);
 }
@@ -43,9 +43,12 @@ t_program    *initialize_program()
         write(1, "Insuficcient memory!!!\n", 24);
     if (!mainprogram)
         return (NULL);
-    if (!initialize_mlx(mainprogram))
+    if (!init_keys(mainprogram))
+    {
+        free(mainprogram);
         return (NULL);
-    if (!bind_keys(mainprogram))
+    }
+    if (!initialize_mlx(mainprogram))
         return (NULL);
     return (mainprogram);
 }

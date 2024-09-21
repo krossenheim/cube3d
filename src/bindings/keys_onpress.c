@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exit_clean.c                                       :+:    :+:            */
+/*   keys_onpress.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/09/20 16:52:18 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/09/21 15:24:58 by jose-lop      ########   odam.nl         */
+/*   Created: 2024/09/21 15:32:33 by jose-lop      #+#    #+#                 */
+/*   Updated: 2024/09/21 15:34:20 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-int    exit_clean(t_program *prog)
+int		escape_pressed(void *address)
 {
-    if (!prog)
+    t_program *p;
+
+	printf("Quitting '%s' because escape was pressed.\n", WIN_NAME);
+    p = (t_program *) address;
+    if (!p)
         return (-1);
-    mlx_destroy_image(prog->mlx, prog->mlx_img);
-    mlx_destroy_window(prog->mlx, prog->mlx_win);
-    mlx_destroy_display(prog->mlx);
-    free(prog->mlx);
-    free(prog->keys);
-    free(prog);
-    exit(0);
+    exit_clean(p);
+	return (1);
 }

@@ -2,6 +2,8 @@ SOURCES_DIR = src/
 
 SOURCES_FLS	=	main.c \
 				bindings/bindings.c \
+				bindings/keys.c \
+				bindings/keys_onpress.c \
 				freeing/exit_clean.c \
 				libft/ft_itoa.c \
 				libft/ft_strlen.c \
