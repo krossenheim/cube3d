@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/09/21 15:33:05 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/09/21 16:03:13 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,5 @@ size_t		ft_strlen(const char *s);
 
 // Keys on-press
 int		escape_pressed(void *address);
-
+int		debug_keypress(void *address, int key);
 #endif
