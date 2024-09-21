@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/09/20 16:54:49 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/09/21 13:46:14 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,17 @@ typedef struct s_cube3d_program
 }		t_program;
 
 // Bindings
-bool	bind_keys();
+bool		bind_keys(t_program *p);
 
 //Initialization
 t_program	*initialize_program();
 
 //Freeing
-void    exit_clean(t_program *prog);
+int		    exit_clean(t_program *prog);
+
+//Libft
+char		*ft_itoa(int n);
+char		*ft_strdup(const char *s1);
+size_t		ft_strlen(const char *s);
 
 #endif

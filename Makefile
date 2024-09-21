@@ -3,6 +3,9 @@ SOURCES_DIR = src/
 SOURCES_FLS	=	main.c \
 				bindings/bindings.c \
 				freeing/exit_clean.c \
+				libft/ft_itoa.c \
+				libft/ft_strlen.c \
+				libft/ft_strdup.c \
 				initialization/initialization.c \
 
 

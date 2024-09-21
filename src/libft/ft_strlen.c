@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_strlen.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/09/20 13:53:04 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/09/21 12:40:06 by jose-lop      ########   odam.nl         */
+/*   Created: 2024/09/21 13:45:22 by jose-lop      #+#    #+#                 */
+/*   Updated: 2024/09/21 13:45:30 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-int main()
+size_t	ft_strlen(const char *s)
 {
-    t_program *program;
+	int	i;
 
-    program = initialize_program();
-    if (!program)
-        return (0);
-    bind_keys(program);
-    printf("Hello World\n");
-    exit_clean(program);
-    return (0);
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
 }
