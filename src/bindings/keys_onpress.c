@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/21 15:32:33 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/09/21 16:03:24 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/09/21 16:13:18 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int		debug_keypress(void *address, int key)
 	p = (t_program *) address;
 	str = ft_itoa(key);
 	mlx_clear_window(p->mlx, p->mlx_win);
+    mlx_string_put(p->mlx, p->mlx_win, WIN_HORI/3, WIN_VERT/3, 0xFF00, "KEY UNBOUND");
 	mlx_string_put(p->mlx, p->mlx_win, WIN_HORI/2, WIN_VERT/2, 0xFF00, str);
 	free(str);
     return (1);

@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/21 13:58:00 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/09/21 16:02:38 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/09/21 16:12:10 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ typedef struct s_key_role
 }  t_key_role;
 # define N_KEYS_MAPPED 6
 # define MAPPED_KEYS (t_key_role [N_KEYS_MAPPED]) {\
-						(t_key_role){debug_keypress, KEY_W},				\
-						(t_key_role){debug_keypress, KEY_S},				\
+						(t_key_role){NULL, KEY_W},				\
+						(t_key_role){NULL, KEY_S},				\
 						(t_key_role){NULL, KEY_A},				\
 						(t_key_role){NULL, KEY_D},				\
 						(t_key_role){escape_pressed, KEY_ESC},		\
