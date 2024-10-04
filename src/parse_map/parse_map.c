@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/03 23:30:52 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 13:57:22 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 14:10:18 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,67 @@ bool    malloced_cols_success(t_map_i *map)
     }
     return (!teardown);
 }
+
+bool    _parse_map_mallocate(t_program *prog, int rows, int cols)
+{
+    prog->map_i = malloc(sizeof(t_map_i));
+    if (!prog->map_i)
+    {
+        write(1, "Malloc no memory parsemap 1", 28);
+        return (false);
+    }
+    prog->map_i->rows = rows;
+    prog->map_i->cols = cols;
+    prog->map_i->map = malloc(sizeof(int *) * prog->map_i->rows);
+    if (!prog->map_i->map)
+    {
+        write(1, "Malloc no memory parsemap 32", 28);
+        free(prog->map_i);
+        return(false);
+    }
+    if (!malloced_cols_success(prog->map_i))
+    {
+        write(1, "Malloc no memory parsemap 43", 28);
+        free(prog->map_i->map);
+        free(prog->map_i);
+        return (false);
+    }
+    return (true);
+}
+
+bool       fill_intarr_with_str(int *dest, char *str)
+{
+    int     i;
+
+    if (!str || ! dest)
+        return (false);
+    i = 0;
+    while (str[i] != '\0')
+    {
+        if (str[i] == '0')
+            dest[i] = 0;
+        else
+            dest[i] = 1;
+        i++;
+    }
+    return (true);
+}
+
+bool    _parse_map_define(t_map_i *map, t_list *raw)
+{
+    int     i;
+    
+    i = 0;
+    while (i < map->rows)
+    {
+        if (!fill_intarr_with_str(map->map[i], (char *) raw->content))
+            return (false);
+        i++;
+        raw = raw->next;
+    }
+    return (true);
+}
+
 bool    parse_map(t_program *prog)
 {
     t_list  *raw;
@@ -136,28 +197,15 @@ bool    parse_map(t_program *prog)
 		ft_lstclear(&raw, clean_map_raw);
 		return (false);
 	}
-    prog->map_i = malloc(sizeof(t_map_i));
-    if (!prog->map_i)
+    if (!_parse_map_mallocate(prog, ft_lstsize(raw), ft_strlen(raw->content)))
     {
-        write(1, "Malloc no memory parsemap 1", 28);
+        ft_lstclear(&raw, clean_map_raw);
         return (false);
     }
-    prog->map_i->rows = ft_lstsize(raw);
-    prog->map_i->cols = ft_strlen(raw->content);
-    prog->map_i->map = malloc(sizeof(int *) * prog->map_i->rows);
-    if (!prog->map_i->map)
+    if (!_parse_map_define(prog->map_i, raw))
     {
-        write(1, "Malloc no memory parsemap 32", 28);
+        write(1, "This should be very much impossible.", 37);
         ft_lstclear(&raw, clean_map_raw);
-        free(prog->map_i);
-        return(false);
-    }
-    if (!malloced_cols_success(prog->map_i))
-    {
-        write(1, "Malloc no memory parsemap 43", 28);
-        ft_lstclear(&raw, clean_map_raw);
-        free(prog->map_i->map);
-        free(prog->map_i);
         return (false);
     }
     ft_lstclear(&raw, clean_map_raw);

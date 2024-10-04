@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 13:29:44 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 14:17:14 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,9 @@ char		*get_next_line(int fd);
 
 //Parse map
 bool		parse_map(t_program *prog);
+
+//debug
+int			debug_keypress(void *address, int key);
+void		printmap(t_map_i *ma);
 
 #endif
