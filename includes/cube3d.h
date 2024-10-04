@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 14:58:40 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 15:15:28 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_cube3d_program
 	t_key_role		*keys;
 	t_map_i			*map_i;
 	t_player		player;
+	bool			draw;
 }		t_program;
 
 // Keys
