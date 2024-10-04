@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/03 23:30:52 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 04:13:31 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 13:36:03 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static t_list    *get_map_raw(char * path)
     t_list  *new;
     char    *line;
 
-    map_fd = open(path, O_RDONLY);
+    map_fd = open(path, O_RDONLY, 0666);
     first = NULL;
     if (map_fd < 0)
     {
@@ -31,7 +31,6 @@ static t_list    *get_map_raw(char * path)
     while (1)
     {
         line = get_next_line(map_fd);
-		printf("a%s\n", line);
         if (!line || *line == '\0')
             break ;
         new = ft_lstnew(ft_strdup(line));
@@ -42,7 +41,7 @@ static t_list    *get_map_raw(char * path)
         //     write(1, "Malloc error\n", 14);
         //     return (false);
         // }
-        ft_lstadd_back(&first, new);
+        ft_lstadd_back(first, new);
         free(line);
     }
     if (line)
@@ -82,7 +81,11 @@ bool    valid_map(t_list *rawmap)
     while (rawmap)
     {
 		if (!ones_and_zeros_only((char *) rawmap->content))
-			return (false);
+        {
+            printf("Notty: '%s'\n", (char *) rawmap->content);
+            write(1, "k", 1);
+            return (false);
+        }
 		if (started == false)
 		{
 			len = ft_strlen((char *) rawmap->content);
@@ -100,11 +103,13 @@ bool    parse_map(t_program *prog)
     t_list  *raw;
 
     raw = get_map_raw("testmap");
+	if (raw == NULL)
+		return (false);
 	if (!valid_map(raw))
 	{
 		printf("Invalid map\n");
 		ft_lstclear(&raw, clean_map_raw);
-		return (NULL);
+		return (false);
 	}
     printf("Our map has '%d' rows\n", ft_lstsize(raw));
     prog->map_i = malloc(sizeof(t_map_i));
@@ -112,5 +117,5 @@ bool    parse_map(t_program *prog)
     prog->map_i->map = malloc(sizeof(int *) * prog->map_i->rows);
 
     ft_lstclear(&raw, clean_map_raw);
-    return (NULL);
+    return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 03:46:27 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 13:29:44 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_cube3d_program
 }		t_program;
 
 // Keys
-bool    init_keys(t_program *p);
+bool    	init_keys(t_program *p);
 
 // Bindings
 bool		do_mlx_hooks(t_program *p);
@@ -61,13 +61,13 @@ char		*ft_itoa(int n);
 char		*ft_strdup(const char *s1);
 
 // Keys on-press
-int		escape_pressed(void *address);
-int		debug_keypress(void *address, int key);
+int			escape_pressed(void *address);
+int			debug_keypress(void *address, int key);
 
 //get_next_line
-char	*get_next_line(int fd);
+char		*get_next_line(int fd);
 
 //Parse map
-bool	parse_map(t_program *prog);
+bool		parse_map(t_program *prog);
 
 #endif
