@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/09/21 16:03:13 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 03:46:27 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,23 @@
 # include "mlx_int.h"
 # include <stdbool.h>
 # include <unistd.h>
-
+# include <stdlib.h>
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif 
 # include "debug.h"
 # define WIN_HORI 400//1280
 # define WIN_VERT 300//1024
 # define WIN_NAME "Cube3D"
 # include "keys.h"
+# include "libft.h"
+
+typedef struct s_map_i
+{
+	int				**map;
+	int				cols;
+	int				rows;
+}	t_map_i;
 
 typedef struct s_cube3d_program
 {
@@ -29,6 +40,7 @@ typedef struct s_cube3d_program
 	t_win_list		*mlx_win;
 	t_img			*mlx_img;
 	t_key_role		*keys;
+	t_map_i			*map_i;
 }		t_program;
 
 // Keys
@@ -47,9 +59,15 @@ int		    exit_clean(t_program *prog);
 //Libft
 char		*ft_itoa(int n);
 char		*ft_strdup(const char *s1);
-size_t		ft_strlen(const char *s);
 
 // Keys on-press
 int		escape_pressed(void *address);
 int		debug_keypress(void *address, int key);
+
+//get_next_line
+char	*get_next_line(int fd);
+
+//Parse map
+bool	parse_map(t_program *prog);
+
 #endif

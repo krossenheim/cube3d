@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_strchr.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/09/20 13:53:04 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 03:27:52 by jose-lop      ########   odam.nl         */
+/*   Created: 2023/10/04 10:50:44 by jose-lop      #+#    #+#                 */
+/*   Updated: 2024/10/04 02:38:33 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-int main()
+char	*ft_strchr(const char *s, int c)
 {
-    t_program *program;
+	int				i;
 
-    program = initialize_program();
-    if (!program)
-        {
-            printf("Initialize program returns null?\n");
-            return (0);
-        }
-    printf("Hello World\n");
-    exit_clean(program);
-    return (0);
+	i = 0;
+	while (s[i] != '\0' || (char) c == '\0')
+	{
+		if ((char) s[i] == (char) c)
+			return ((char *) &s[i]);
+		i++;
+	}
+	return (NULL);
 }

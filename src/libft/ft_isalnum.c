@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_isalnum.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/09/20 13:53:04 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 03:27:52 by jose-lop      ########   odam.nl         */
+/*   Created: 2023/10/10 11:59:40 by jose-lop      #+#    #+#                 */
+/*   Updated: 2024/10/04 02:38:33 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-int main()
+int	ft_isalnum(int n)
 {
-    t_program *program;
-
-    program = initialize_program();
-    if (!program)
-        {
-            printf("Initialize program returns null?\n");
-            return (0);
-        }
-    printf("Hello World\n");
-    exit_clean(program);
-    return (0);
+	return (ft_isdigit(n) || ft_isalpha(n));
 }

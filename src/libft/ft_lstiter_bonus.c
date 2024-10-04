@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_lstiter_bonus.c                                 :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/09/20 13:53:04 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 03:27:52 by jose-lop      ########   odam.nl         */
+/*   Created: 2023/10/21 17:56:55 by jose-lop      #+#    #+#                 */
+/*   Updated: 2024/10/04 02:38:33 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-int main()
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-    t_program *program;
+	t_list	*node;
 
-    program = initialize_program();
-    if (!program)
-        {
-            printf("Initialize program returns null?\n");
-            return (0);
-        }
-    printf("Hello World\n");
-    exit_clean(program);
-    return (0);
+	if (lst == NULL || f == NULL)
+		return ;
+	node = lst;
+	while (node != NULL)
+	{
+		f(node->content);
+		node = node->next;
+	}
 }

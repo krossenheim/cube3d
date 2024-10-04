@@ -1,35 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strdup.c                                        :+:    :+:            */
+/*   ft_strnstr.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/10/04 12:46:41 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 03:15:21 by jose-lop      ########   odam.nl         */
+/*   Created: 2023/10/10 12:00:19 by jose-lop      #+#    #+#                 */
+/*   Updated: 2024/10/04 02:38:33 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-char	*ft_strdup(const char *s)
+char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
-	char	*copy;
-	int		j;
-	int		l;
+	size_t	i;
+	size_t	j;
+	size_t	length_to_match;
 
+	length_to_match = ft_strlen(little);
+	if (length_to_match == 0)
+		return ((char *) big);
+	if (len == 0)
+		return (NULL);
+	i = 0;
 	j = 0;
-	l = ft_strlen(s);
-	if (s == NULL)
-		return (NULL);
-	copy = (void *)malloc(l + 1);
-	if (copy == NULL)
-		return (NULL);
-	while (s[j] != '\0')
+	while (big[i] != '\0' && i < len)
 	{
-		copy[j] = s[j];
-		j++;
+		if (big[i] == little[j])
+		{
+			j++;
+			i++;
+			if (length_to_match == j)
+				return ((char *) &big[i - j]);
+			continue ;
+		}
+		i = (i - j) + 1;
+		j = 0;
 	}
-	copy[j] = '\0';
-	return (copy);
+	return (NULL);
 }

@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_lstadd_back_bonus.c                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/09/20 13:53:04 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 03:27:52 by jose-lop      ########   odam.nl         */
+/*   Created: 2023/10/21 17:51:02 by jose-lop      #+#    #+#                 */
+/*   Updated: 2024/10/04 02:38:33 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-int main()
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-    t_program *program;
+	t_list	*temp;
 
-    program = initialize_program();
-    if (!program)
-        {
-            printf("Initialize program returns null?\n");
-            return (0);
-        }
-    printf("Hello World\n");
-    exit_clean(program);
-    return (0);
+	if (new == NULL)
+		return ;
+	if (*lst == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	temp = *lst;
+	while (temp->next != NULL)
+		temp = temp->next;
+	temp->next = new;
 }

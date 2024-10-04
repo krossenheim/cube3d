@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_putchar_fd.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/09/20 13:53:04 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 03:27:52 by jose-lop      ########   odam.nl         */
+/*   Created: 2023/10/16 12:17:17 by jose-lop      #+#    #+#                 */
+/*   Updated: 2024/10/04 02:38:33 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-int main()
+void	ft_putchar_fd(char c, int fd)
 {
-    t_program *program;
-
-    program = initialize_program();
-    if (!program)
-        {
-            printf("Initialize program returns null?\n");
-            return (0);
-        }
-    printf("Hello World\n");
-    exit_clean(program);
-    return (0);
+	write(fd, &c, 1);
 }

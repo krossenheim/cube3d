@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_lstclear_bonus.c                                :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/09/20 13:53:04 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 03:27:52 by jose-lop      ########   odam.nl         */
+/*   Created: 2023/10/21 17:53:45 by jose-lop      #+#    #+#                 */
+/*   Updated: 2024/10/04 02:48:32 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-int main()
+void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
-    t_program *program;
+	t_list	*current_node;
+	t_list	*prev_node;
 
-    program = initialize_program();
-    if (!program)
-        {
-            printf("Initialize program returns null?\n");
-            return (0);
-        }
-    printf("Hello World\n");
-    exit_clean(program);
-    return (0);
+	if (lst == NULL || del == NULL)
+		return ;
+	current_node = *lst;
+	while (current_node != NULL)
+	{
+		printf("Killin one! %p\n", (void * )current_node);
+		prev_node = current_node;
+		current_node = current_node->next;
+		ft_lstdelone(prev_node, del);
+	}
+	*lst = NULL;
 }

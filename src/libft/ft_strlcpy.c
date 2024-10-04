@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_strlcpy.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/09/20 13:53:04 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 03:27:52 by jose-lop      ########   odam.nl         */
+/*   Created: 2023/10/10 13:52:18 by jose-lop      #+#    #+#                 */
+/*   Updated: 2024/10/04 02:38:33 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-int main()
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-    t_program *program;
+	size_t	i;
+	int		src_len;
 
-    program = initialize_program();
-    if (!program)
-        {
-            printf("Initialize program returns null?\n");
-            return (0);
-        }
-    printf("Hello World\n");
-    exit_clean(program);
-    return (0);
+	i = 0;
+	src_len = ft_strlen(src);
+	if (size == 0)
+		return (src_len);
+	if (size > 0)
+		size--;
+	while (i < size)
+	{
+		dst[i] = src[i];
+		if (src[i] == '\0')
+			break ;
+		i++;
+	}
+	dst[i] = '\0';
+	return (src_len);
 }

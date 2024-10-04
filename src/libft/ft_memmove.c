@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_memmove.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/09/20 13:53:04 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 03:27:52 by jose-lop      ########   odam.nl         */
+/*   Created: 2023/10/08 13:34:30 by jose-lop      #+#    #+#                 */
+/*   Updated: 2024/10/04 02:38:33 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-int main()
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-    t_program *program;
+	unsigned char	*dest_p;
+	unsigned char	*src_p;
 
-    program = initialize_program();
-    if (!program)
-        {
-            printf("Initialize program returns null?\n");
-            return (0);
-        }
-    printf("Hello World\n");
-    exit_clean(program);
-    return (0);
+	if (dest == src)
+		return (dest);
+	if (dest < src)
+		return (ft_memcpy(dest, src, n));
+	src_p = (unsigned char *)src;
+	dest_p = (unsigned char *)dest;
+	while (n > 0)
+	{
+		n--;
+		dest_p[n] = src_p[n];
+	}
+	return (dest);
 }

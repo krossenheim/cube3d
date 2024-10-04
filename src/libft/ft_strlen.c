@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/09/21 13:45:22 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/09/21 13:45:30 by jose-lop      ########   odam.nl         */
+/*   Created: 2023/10/04 12:39:26 by jose-lop      #+#    #+#                 */
+/*   Updated: 2024/10/04 03:54:36 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *s)
 	int	i;
 
 	i = 0;
-	while (s[i] != '\0')
+	while (s && s[i] != '\0')
 		i++;
 	return (i);
 }

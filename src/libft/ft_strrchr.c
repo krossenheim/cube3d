@@ -1,28 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   ft_strrchr.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/09/20 13:53:04 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 03:27:52 by jose-lop      ########   odam.nl         */
+/*   Created: 2023/10/04 10:50:44 by jose-lop      #+#    #+#                 */
+/*   Updated: 2024/10/04 02:38:33 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-int main()
+char	*ft_strrchr(const char *s, int c)
 {
-    t_program *program;
+	int				i;
+	char			*p;
 
-    program = initialize_program();
-    if (!program)
-        {
-            printf("Initialize program returns null?\n");
-            return (0);
-        }
-    printf("Hello World\n");
-    exit_clean(program);
-    return (0);
+	p = NULL;
+	i = 0;
+	while (s[i] != '\0')
+	{
+		i++;
+	}
+	while (i >= 0)
+	{
+		if ((char) s[i] == (char) c)
+		{
+			p = (char *) &s[i];
+			break ;
+		}
+		i--;
+	}
+	return (p);
 }
+
+// #include <stdio.h>
+
+// int	main(void)
+// {
+// 	char arr[] = "This is it last makk!";
+// 	int c = 0;
+
+// 	const char *p;
+
+// 	p = ft_strrchr(arr, c);
+// 	printf("Pinter: '%s'", p);
+// }

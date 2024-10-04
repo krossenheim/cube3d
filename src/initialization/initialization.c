@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 14:04:40 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/09/21 14:28:35 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 03:50:26 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,17 @@ t_program    *initialize_program()
         free(mainprogram);
         return (NULL);
     }
-    if (!initialize_mlx(mainprogram))
+    if (!parse_map(mainprogram))
+    {
+        free(mainprogram->keys);
+        free(mainprogram);
         return (NULL);
+    }
+    if (!initialize_mlx(mainprogram))
+    {
+        free(mainprogram->keys);
+        free(mainprogram);
+        return (NULL);
+    }
     return (mainprogram);
 }
