@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 18:07:48 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 18:54:26 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_ray_cast
     double  side_dist_y;
     double  delta_dist_x;
     double  delta_dist_y;
-    double  perp_wall_dist;
+    double  perpend_dist;
     int	    step_x;
     int	    step_y;
     int     hit;

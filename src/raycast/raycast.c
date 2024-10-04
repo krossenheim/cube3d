@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 18:45:20 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 18:54:45 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void      dda(t_ray_cast *ray, t_map_i *map)
         //Check if ray has hit a wall
         if (map->map[ray->start_x][ray->start_y] == 1)
         {
-            printf("Ray hit at %d,%d",ray->start_x, ray->start_y);
+            printf("Ray hit at %d,%d\n",ray->start_x, ray->start_y);
             ray->hit = 1;
         }
       } 
@@ -98,19 +98,25 @@ void      dda(t_ray_cast *ray, t_map_i *map)
 void    draw(t_map_i *map, t_player *player)
 {
 	int         i;
-    t_ray_cast   *ray;
+    t_ray_cast   ray;
     
-    ray = malloc(sizeof(t_ray_cast));
 	i = 0;
 	while (map->cols > i)
 	{
-        init_ray(player, map, i, ray);
-        calc_offset_x_y(ray, player);
-        dda(ray, map);
-        printf("Init Ray %d done.\n", i);
+        init_ray(player, map, i, &ray);
+        calc_offset_x_y(&ray, player);
+        dda(&ray, map);
+        if (ray.hit)
+        {
+            if(ray.side == 0)
+                ray.perpend_dist = (ray.side_dist_x - ray.delta_dist_x);
+            else
+                ray.perpend_dist = (ray.side_dist_y - ray.delta_dist_y);
+            printf("Distance is %f\n", ray.perpend_dist);
+        }
+
 		i++;
 	}
-    free(ray);
 }
 
 void    raycast(t_program *prg)
