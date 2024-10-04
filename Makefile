@@ -8,6 +8,7 @@ SOURCES_FLS	=	main.c \
 				initialization/initialization.c \
 				get_next_line/get_next_line.c \
 				parse_map/parse_map.c \
+				player/init_player.c \
 				debug/debug.c \
 				libft/ft_isalpha.c	\
 				libft/ft_isdigit.c	\

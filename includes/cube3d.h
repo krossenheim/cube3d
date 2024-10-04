@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 14:44:35 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 14:58:40 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@
 # include "keys.h"
 # include "libft.h"
 
+typedef struct s_player
+{
+	double			plane_x;
+	double			plane_y;
+	double			dir_x;
+	double			dir_y;
+	double			pos_x;
+	double			pos_y;
+}	t_player;
+
 typedef struct s_map_i
 {
 	int				**map;
@@ -41,6 +51,7 @@ typedef struct s_cube3d_program
 	t_img			*mlx_img;
 	t_key_role		*keys;
 	t_map_i			*map_i;
+	t_player		player;
 }		t_program;
 
 // Keys
@@ -55,6 +66,7 @@ bool		init_keys(t_program *p);
 
 //Freeing
 int		    exit_clean(t_program *prog);
+void 		free_map(t_map_i *map);
 
 //Libft
 char		*ft_itoa(int n);
@@ -73,5 +85,8 @@ bool		parse_map(t_program *prog);
 //debug
 int			debug_keypress(void *address, int key);
 void		printmap(t_map_i *ma);
+
+// Init player
+bool    	init_player(t_program *prg);
 
 #endif
