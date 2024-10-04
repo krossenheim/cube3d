@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 14:04:40 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 13:33:33 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 13:58:56 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,22 @@ static bool    initialize_mlx(t_program *prg)
     return (true);
 }
 
+static t_program    *_initialize_program()
+{
+    t_program   *mainprogram;
+    mainprogram = malloc(sizeof(t_program));
+    if (!mainprogram)
+        write(1, "Insuficcient memory!!!\n", 24);
+    if (!mainprogram)
+        return (NULL);
+    return (mainprogram);
+}
+
 t_program    *initialize_program()
 {
     t_program   *mainprogram;
 
-    mainprogram = malloc(sizeof(t_program));
-    if (!mainprogram)
-        write(1, "Insuficcient memory!!!\n", 24);
+    mainprogram = _initialize_program();
     if (!mainprogram)
         return (NULL);
     if (!init_keys(mainprogram))

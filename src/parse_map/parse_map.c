@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/03 23:30:52 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 13:36:03 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 13:57:22 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ static t_list    *get_map_raw(char * path)
         new = ft_lstnew(ft_strdup(line));
         if (!first)
             first = new;
-        // if (!new->content)
-        // {
-        //     write(1, "Malloc error\n", 14);
-        //     return (false);
-        // }
+        if (!new->content)
+        {
+            write(1, "Malloc error\n", 14);
+            return (false);
+        }
         ft_lstadd_back(first, new);
         free(line);
     }
@@ -98,6 +98,31 @@ bool    valid_map(t_list *rawmap)
     return (true);
 }
 
+bool    malloced_cols_success(t_map_i *map)
+{
+    int     i;
+    bool    teardown;
+
+    teardown = false;
+    i = 0;
+    while (map->rows > i)
+    {
+        map->map[i] = malloc(sizeof(int) * map->cols);
+        if (!map->map[i])
+        {
+            teardown = true;
+            write(1, "Malloc error soup", 18);
+            break;
+        }
+        i++;
+    }
+    while (teardown && i >= 0)
+    {
+        free(map->map[i]);
+        i--;
+    }
+    return (!teardown);
+}
 bool    parse_map(t_program *prog)
 {
     t_list  *raw;
@@ -111,11 +136,30 @@ bool    parse_map(t_program *prog)
 		ft_lstclear(&raw, clean_map_raw);
 		return (false);
 	}
-    printf("Our map has '%d' rows\n", ft_lstsize(raw));
     prog->map_i = malloc(sizeof(t_map_i));
+    if (!prog->map_i)
+    {
+        write(1, "Malloc no memory parsemap 1", 28);
+        return (false);
+    }
     prog->map_i->rows = ft_lstsize(raw);
+    prog->map_i->cols = ft_strlen(raw->content);
     prog->map_i->map = malloc(sizeof(int *) * prog->map_i->rows);
-
+    if (!prog->map_i->map)
+    {
+        write(1, "Malloc no memory parsemap 32", 28);
+        ft_lstclear(&raw, clean_map_raw);
+        free(prog->map_i);
+        return(false);
+    }
+    if (!malloced_cols_success(prog->map_i))
+    {
+        write(1, "Malloc no memory parsemap 43", 28);
+        ft_lstclear(&raw, clean_map_raw);
+        free(prog->map_i->map);
+        free(prog->map_i);
+        return (false);
+    }
     ft_lstclear(&raw, clean_map_raw);
     return (true);
 }
