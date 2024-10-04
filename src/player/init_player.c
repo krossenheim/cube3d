@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 14:48:38 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 14:59:22 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 18:44:54 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,16 @@ void    set_pos(t_map_i *map, t_player *player)
 	int	j;
 
 	i = 0;
-	printf("\n");
-
 	while (map->cols > i)
 	{
 		j = 0;
 		while (map->rows > j)
         {
-            if (map->map[i][j] == 1)
+            if (map->map[i][j] == 0 && i > map->cols/2 && j > map->rows/2)
             {
                 player->pos_x = i;
                 player->pos_y = j;
+                return ;
             }
             j++;
         }

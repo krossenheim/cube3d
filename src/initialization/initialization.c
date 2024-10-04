@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 14:04:40 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 14:58:19 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 16:25:24 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ t_program    *initialize_program()
         free(mainprogram);
         return (NULL);
     }
+    write(1, "Initcast\n", 10);
+    raycast(mainprogram);
     if (!initialize_mlx(mainprogram))
     {
         free(mainprogram->keys);

@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 16:12:55 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 18:07:48 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,24 @@
 # define WIN_NAME "Cube3D"
 # include "keys.h"
 # include "libft.h"
+
+typedef struct s_ray_cast 
+{   
+    double  camera_x;
+    double  dir_x;
+    double  dir_y;
+    int  	start_x;
+    int	  	start_y;
+    double  side_dist_x;
+    double  side_dist_y;
+    double  delta_dist_x;
+    double  delta_dist_y;
+    double  perp_wall_dist;
+    int	    step_x;
+    int	    step_y;
+    int     hit;
+    int     side;
+}   t_ray_cast;
 
 typedef struct s_player
 {
@@ -93,5 +111,5 @@ void		printmap(t_map_i *ma);
 bool    	init_player(t_program *prg);
 
 //raycast 
-void	draw(t_map_i *map, t_player *player);
+void   		raycast(t_program *prg);
 #endif
