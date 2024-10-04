@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/21 14:02:25 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 04:05:59 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 14:24:39 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ bool	init_keys(t_program *p)
 		(p->keys + i)->key = (MAPPED_KEYS + i)->key;
 		if ((MAPPED_KEYS + i)->func == NULL)
 			{
+			printf("Warning key %d(%d) has no function attached.\n",
+				i,
+				(MAPPED_KEYS + i)->key);
 				(p->keys + i)->func = debug_keypress;
 			}
 		else

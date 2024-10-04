@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 16:52:18 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 14:00:17 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 14:22:25 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ static void free_map(t_map_i *map)
     if (!map)
         return ;
     while (i < map->rows)
-        {
-            free(map->map[i]);
-            i++;
-        }
+    {
+        free(map->map[i]);
+        i++;
+    }
     free(map->map);
     free(map);
 }
