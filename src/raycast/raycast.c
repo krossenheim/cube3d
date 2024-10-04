@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 22:22:14 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 22:53:52 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,26 +75,6 @@ void      dda(t_ray_cast *ray, t_map_i *map)
         }
       } 
 }
-// void calc_cast2(t_player *player, t_ray_cast *ray)
-// {
-    
-
-// //       //length of ray from current position to next x or y-side
-// //       double sideDistX;
-// //       double sideDistY;
-
-// //        //length of ray from one x or y-side to next x or y-side
-// //       double deltaDistX = (rayDirX == 0) ? 1e30 : std::abs(1 / rayDirX);
-// //       double deltaDistY = (rayDirY == 0) ? 1e30 : std::abs(1 / rayDirY);
-// //       double perpWallDist;
-
-// //       //what direction to step in x or y-direction (either +1 or -1)
-// //       int stepX;
-// //       int stepY;
-
-// //       int hit = 0; //was there a wall hit?
-// //       int side; //was a NS or a EW wall hit?
-// }
 
 void    set_perpendicular_distance(t_ray_cast *ray)
 {
@@ -109,8 +89,8 @@ void    set_perpendicular_distance(t_ray_cast *ray)
 
 void    calc_lineheight(t_ray_cast *ray)
 {
-    ray->lineHeight = (int)(HEIGHT_SCALE / ray->perpend_dist);
-    ray->draw_start = -ray->lineHeight / 2 + HEIGHT_SCALE / 2;
+    ray->line_height = (int)(HEIGHT_SCALE / ray->perpend_dist);
+    ray->draw_start = -ray->line_height / 2 + HEIGHT_SCALE / 2;
     if (ray->draw_start < 0)
         ray->draw_start = 0;
     ray->draw_end = ray->line_height / 2 + HEIGHT_SCALE / 2;
@@ -118,8 +98,10 @@ void    calc_lineheight(t_ray_cast *ray)
         ray->draw_end = HEIGHT_SCALE -1;
 }
 
-void    ver_line(int x, t_ray_cast *ray, t_map_i *map)
+void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
 {
+    char    *pixel;
+    
     if(ray->draw_end < ray->draw_start) 
     {
         ray->draw_start += ray->draw_end;
@@ -132,29 +114,50 @@ void    ver_line(int x, t_ray_cast *ray, t_map_i *map)
         ray->draw_start = 0;
     if(ray->draw_end >= map->cols)
         ray->draw_end = HEIGHT_SCALE - 1;
-  return ;
+    pixel = prg->mlx_img->data + y * prg->mlx_img->size_line + x * (prg->mlx_img->bpp / 8);
+    *(int *)pixel = pt.color;
+    return ;
 }
+
+
+// void	img_pix_put(t_img *img, t_pnt pt)
+// {
+// 	char	*pixel;
+// 	int		x;
+// 	int		y;
+
+// 	x = round(pt.x);
+// 	y = round(pt.y);
+// 	if (x < 0 || x >= W_SIZE || y < 0 || y >= W_SIZE)
+// 		return ;
+// 	pixel = img->addr + y * img->line_len + x * (img->bpp / 8);
+// 	*(int *)pixel = pt.color;
+// }
 
 void    set_wall_color(t_ray_cast *ray)
 {
-    int     color_count = 5;
-    int		colors[color_count] = {BBLK, BRED, BGRN, BYEL, BBLU};
+    int     maxindex = 4;
+    int     colors[] = {1, 2, 3, 4, 5};
     int     picked_color;
     while (ray->wall_val < 0)
-        ray->wall_val += color_count - 1;
-    while (ray->wall_val > color_count)
-        ray->wall_val -= color_count - 1;
-    picked_color = colors[ray->wall_val];
+        ray->wall_val += maxindex;
+    while (ray->wall_val > maxindex)
+        ray->wall_val -= maxindex;
+    picked_color = (int) colors[ray->wall_val];
     if (ray->side == 1)
         picked_color /= 2;
     ray->wall_color = picked_color;
 }
 
-void    draw(t_map_i *map, t_player *player)
+void    draw(t_program *prg)
 {
 	int         i;
     t_ray_cast   ray;
-    
+    t_map_i     *map;
+    t_player    *player;
+
+    map = prg->map_i;
+    player = &prg->player;
 	i = 0;
 	while (map->cols > i)
 	{
@@ -183,5 +186,5 @@ void    raycast(t_program *prg)
     }
     prg->draw = true;
     // while (prg->draw)
-        draw(map, player);
+        draw(prg);
 }
