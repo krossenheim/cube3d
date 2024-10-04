@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 15:15:28 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 16:12:55 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <stdbool.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <math.h>
+# include <float.h>
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
 # endif 
@@ -90,4 +92,6 @@ void		printmap(t_map_i *ma);
 // Init player
 bool    	init_player(t_program *prg);
 
+//raycast 
+void	draw(t_map_i *map, t_player *player);
 #endif

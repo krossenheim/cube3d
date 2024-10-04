@@ -6,33 +6,46 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 15:43:15 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 16:14:42 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-typedef struct s_ray_hit 
+typedef struct s_ray_cast 
 {   
     double  camera_x;
-    double  ray_dir_x;
-    double  ray_dir_y;
+    double  dir_x;
+    double  dir_y;
+    double  start_x;
+    double  start_y;
+    double  side_dist_x;
+    double  side_dist_y;
+    double  delta_dist_x;
+    double  delta_dist_y;
+    double  perp_wall_dist;
+    bool    step_x;
+    bool    step_y;
+    int     hit;
+    int     side;
     
-}   t_ray_hit;
+}   t_ray_cast;
 
-void    calc_cast(t_player *player, t_map_i *map, int col, t_ray_hit *f);
+void    calc_cast(t_player *player, t_map_i *map, int col, t_ray_cast *ray);
 {
-    f->camera_x = 2 * col / double(map->cols) - 1;
-    f->ray_dir_x = player->dir_x + player->plane_x * f->camera_x;
-    f->ray_dir_y = player->dir_y + player->plane_y * f->camera_x;
+    ray->camera_x = 2 * col / double(map->cols) - 1;
+    ray->dir_x = player->dir_x + player->plane_x * ray->camera_x;
+    ray->dir_y = player->dir_y + player->plane_y * ray->camera_x;
 }
 
-// void calc_cast2()
-// {
-//  //which box of the map we're in
-//       int mapX = int(posX);
-//       int mapY = int(posY);
-
+void calc_cast2(t_player *player, t_ray_cast *ray)
+{
+    
+    ray->start_x = player->pos_x;
+    ray->start_y = player->pos_y;
+    ray->delta_dist_x = ray->dir_x == 0 ? __DBL_MAX__ : abs(1 / ray->dir_x);
+    ray->delta_dist_y= ray->dir_y == 0 ? __DBL_MAX__ : abs(1 / ray->dir_y);
+    ray->hit = 0;
 //       //length of ray from current position to next x or y-side
 //       double sideDistX;
 //       double sideDistY;
@@ -48,30 +61,31 @@ void    calc_cast(t_player *player, t_map_i *map, int col, t_ray_hit *f);
 
 //       int hit = 0; //was there a wall hit?
 //       int side; //was a NS or a EW wall hit?
-// }
+}
 
-void    draw(t_mapi *map, t_player *player)
+void    draw(t_map_i *map, t_player *player)
 {
-	int	i;
-
+	int         i;
+    t_ray_cast   ray;
+    
 	i = 0;
 	while (map->cols > i)
 	{
-        calc_cast(player, map, i);
+        calc_cast(player, map, i, ray);
 		i++;
 	}
 }
 
 void    raycast(t_program *prg)
 {
-    t_map_i *map;
-    t_map_i *player;
+    t_map_i     *map;
+    t_player    *player;
 
     map = prg->map_i;
-    player = prg->player;
+    player = &prg->player;
     if (!map || !player)
     {
-        write(1,"Superfatal error 4," 20);
+        write(1, "Superfatal error 4\n", 20);
         return ;
     }
     prg->draw = true;
