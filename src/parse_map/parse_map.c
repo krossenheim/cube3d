@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/03 23:30:52 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 04:05:30 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 04:13:31 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static t_list    *get_map_raw(char * path)
     while (1)
     {
         line = get_next_line(map_fd);
+		printf("a%s\n", line);
         if (!line || *line == '\0')
             break ;
         new = ft_lstnew(ft_strdup(line));

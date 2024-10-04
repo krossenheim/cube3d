@@ -51,8 +51,6 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	remainder[fd] = read_from_file(fd, remainder[fd]);
-	while (ft_strchr(remainder[fd], '\n') != NULL)
-		*ft_strchr(remainder[fd], '\n') = '\0';
 	if (!remainder[fd])
 		return (NULL);
 	line = ft_strdup(remainder[fd]);
