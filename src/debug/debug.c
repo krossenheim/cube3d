@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 14:15:50 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 14:19:47 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 14:44:35 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	printmap(t_map_i *ma)
 	i = 0;
 	printf("\n");
 
-	while (ma->rows > i)
+	while (ma->cols > i)
 	{
 		j = 0;
-		while (ma->cols > j)
+		while (ma->rows > j)
 			{
 				printf("%d", ma->map[i][j]);
 				j++;

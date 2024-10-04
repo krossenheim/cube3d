@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/03 23:30:52 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 14:10:18 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 14:44:55 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ bool    malloced_cols_success(t_map_i *map)
 
     teardown = false;
     i = 0;
-    while (map->rows > i)
+    while (map->cols > i)
     {
-        map->map[i] = malloc(sizeof(int) * map->cols);
+        map->map[i] = malloc(sizeof(int) * map->rows);
         if (!map->map[i])
         {
             teardown = true;
@@ -132,9 +132,9 @@ bool    _parse_map_mallocate(t_program *prog, int rows, int cols)
         write(1, "Malloc no memory parsemap 1", 28);
         return (false);
     }
-    prog->map_i->rows = rows;
-    prog->map_i->cols = cols;
-    prog->map_i->map = malloc(sizeof(int *) * prog->map_i->rows);
+    prog->map_i->cols = rows;
+    prog->map_i->rows = cols;
+    prog->map_i->map = malloc(sizeof(int *) * prog->map_i->cols);
     if (!prog->map_i->map)
     {
         write(1, "Malloc no memory parsemap 32", 28);
@@ -174,7 +174,7 @@ bool    _parse_map_define(t_map_i *map, t_list *raw)
     int     i;
     
     i = 0;
-    while (i < map->rows)
+    while (i < map->cols)
     {
         if (!fill_intarr_with_str(map->map[i], (char *) raw->content))
             return (false);

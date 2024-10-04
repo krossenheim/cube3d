@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 14:17:14 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 14:44:35 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 typedef struct s_map_i
 {
 	int				**map;
-	int				cols;
 	int				rows;
+	int				cols;
 }	t_map_i;
 
 typedef struct s_cube3d_program
