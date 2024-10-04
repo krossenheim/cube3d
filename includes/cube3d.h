@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 18:54:26 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/04 22:19:50 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # define WIN_HORI 400//1280
 # define WIN_VERT 300//1024
 # define WIN_NAME "Cube3D"
+# define HEIGHT_SCALE 2
+# include "ansicolor.h"
 # include "keys.h"
 # include "libft.h"
 
@@ -45,6 +47,11 @@ typedef struct s_ray_cast
     int	    step_y;
     int     hit;
     int     side;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
+	int		wall_val;
+	int		wall_color;
 }   t_ray_cast;
 
 typedef struct s_player
