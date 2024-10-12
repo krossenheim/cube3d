@@ -63,8 +63,6 @@ NAME = cube3d.out
 MLX_LIB_DIR = mlx_linux
 
 CFLAGS	=	-Wall	-Wextra	-Werror -g -I ./includes/ -Lmlx_linux -lmlx_Linux -L/usr/lib -I ./mlx_linux/ -lXext -lX11 -lm -lz
-%.o: %.c
-	cc -g -Wall -Wextra -Werror -I ./includes/ -I/usr/include -Imlx_linux -c $< -o $@
 
 $(NAME): $(OBJS) mlx_lib
 	cc $(OBJS) $(CFLAGS) -g -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)

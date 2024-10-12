@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 22:41:39 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/13 01:52:30 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_cube3d_program
 {
 	t_xvar			*mlx;
 	t_win_list		*mlx_win;
-	t_img			*mlx_img;
+	t_img			mlx_img;
 	t_key_role		*keys;
 	t_map_i			*map_i;
 	t_player		player;
@@ -117,5 +117,5 @@ void		printmap(t_map_i *ma);
 bool    	init_player(t_program *prg);
 
 //raycast 
-void   		raycast(t_program *prg);
+int			raycast(t_program *prg);
 #endif

@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 22:53:52 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/13 01:55:23 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void    calc_lineheight(t_ray_cast *ray)
 void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
 {
     char    *pixel;
+    int     y;
     
     if(ray->draw_end < ray->draw_start) 
     {
@@ -114,31 +115,23 @@ void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
         ray->draw_start = 0;
     if(ray->draw_end >= map->cols)
         ray->draw_end = HEIGHT_SCALE - 1;
-    pixel = prg->mlx_img->data + y * prg->mlx_img->size_line + x * (prg->mlx_img->bpp / 8);
-    *(int *)pixel = pt.color;
+    y = ray->draw_start;
+    while (y <= ray->draw_end)
+    {
+        pixel = prg->mlx_img.data
+         + y++ * prg->mlx_img.size_line 
+         + x * (prg->mlx_img.bpp / 8);
+        *(int *)pixel = ray->wall_color;
+    }
     return ;
 }
-
-
-// void	img_pix_put(t_img *img, t_pnt pt)
-// {
-// 	char	*pixel;
-// 	int		x;
-// 	int		y;
-
-// 	x = round(pt.x);
-// 	y = round(pt.y);
-// 	if (x < 0 || x >= W_SIZE || y < 0 || y >= W_SIZE)
-// 		return ;
-// 	pixel = img->addr + y * img->line_len + x * (img->bpp / 8);
-// 	*(int *)pixel = pt.color;
-// }
 
 void    set_wall_color(t_ray_cast *ray)
 {
     int     maxindex = 4;
-    int     colors[] = {1, 2, 3, 4, 5};
+    int     colors[] = {255, 65280, 1677214, 1671100, 825000};
     int     picked_color;
+
     while (ray->wall_val < 0)
         ray->wall_val += maxindex;
     while (ray->wall_val > maxindex)
@@ -167,12 +160,15 @@ void    draw(t_program *prg)
         set_perpendicular_distance(&ray);
         calc_lineheight(&ray);
         set_wall_color(&ray);
-        ver_line(i, &ray, map);
+        ver_line(i, &ray, map, prg);
 		i++;
 	}
+    mlx_clear_window(prg->mlx, prg->mlx_win);
+    mlx_put_image_to_window(prg->mlx, prg->mlx_win, &prg->mlx_img.image, 0, 0);
+    printf("Drawing done\n\n");
 }
 
-void    raycast(t_program *prg)
+int    raycast(t_program *prg)
 {
     t_map_i     *map;
     t_player    *player;
@@ -182,9 +178,11 @@ void    raycast(t_program *prg)
     if (!map || !player)
     {
         write(1, "Superfatal error 4\n", 20);
-        return ;
+        return (1);
     }
     prg->draw = true;
-    // while (prg->draw)
-        draw(prg);
+    draw(prg);
+    while (1)
+        continue;
+    return (0);
 }
