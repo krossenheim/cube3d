@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/13 01:52:30 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/18 00:38:31 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,20 @@ typedef struct s_map_i
 	int				cols;
 }	t_map_i;
 
+typedef struct s_img_wat
+{
+	void		*mlx_img;
+	char		*addr;
+	int			bpp;
+	int			line_len;
+	int			endian;
+}		t_img_wat;
+
 typedef struct s_cube3d_program
 {
 	t_xvar			*mlx;
 	t_win_list		*mlx_win;
-	t_img			mlx_img;
+	t_img_wat			img;
 	t_key_role		*keys;
 	t_map_i			*map_i;
 	t_player		player;

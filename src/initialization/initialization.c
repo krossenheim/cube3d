@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 14:04:40 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/13 01:54:00 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/18 00:34:47 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,21 @@ static bool    initialize_mlx(t_program *prg)
         free(prg->mlx);
 		return (false);
     }
-	prg->mlx_img.image = mlx_new_image(prg->mlx, WIN_HORI, WIN_VERT);
-    if (!&prg->mlx_img)
+	prg->img.mlx_img = mlx_new_image(prg->mlx, WIN_HORI, WIN_VERT);
+    if (!prg->img.mlx_img)
     {
         write(1, "Failed to create a new image\n", 30);
         free(prg->mlx);
 		return (false);
     }
-	prg->mlx_img.data = mlx_get_data_addr(prg->mlx_img.image,
-                            &prg->mlx_img.bpp, &prg->mlx_img.size_line, &prg->mlx_img.format);
-    // if (!(*prg->mlx_img.data))
-    // {
-    //     write(1, "Failed to allocate memory for image data\n", 42);
-    //     free(prg->mlx);
-	// 	return (false);
-    // }
+	prg->img.addr = mlx_get_data_addr(prg->img.mlx_img,
+                            &prg->img.bpp, &prg->img.line_len, &prg->img.endian);
+    if (!prg->img.addr)
+    {
+        write(1, "Failed to allocate memory for image data\n", 42);
+        free(prg->mlx);
+		return (false);
+    }
     mlx_loop_hook(prg->mlx, raycast, prg);
     do_mlx_hooks(prg);
     mlx_loop(prg->mlx);

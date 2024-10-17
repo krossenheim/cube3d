@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/13 01:55:23 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/18 00:42:35 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,9 @@ void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
     y = ray->draw_start;
     while (y <= ray->draw_end)
     {
-        pixel = prg->mlx_img.data
-         + y++ * prg->mlx_img.size_line 
-         + x * (prg->mlx_img.bpp / 8);
+        pixel = prg->img.addr
+         + y++ * prg->img.line_len
+         + x * (prg->img.bpp / 8);
         *(int *)pixel = ray->wall_color;
     }
     return ;
@@ -129,16 +129,14 @@ void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
 void    set_wall_color(t_ray_cast *ray)
 {
     int     maxindex = 4;
-    int     colors[] = {255, 65280, 1677214, 1671100, 825000};
+    int     colors[] = {33, 55, 77, 99, 122};
     int     picked_color;
 
-    while (ray->wall_val < 0)
-        ray->wall_val += maxindex;
-    while (ray->wall_val > maxindex)
-        ray->wall_val -= maxindex;
+
+    ray->wall_val = ray->wall_val % maxindex;
     picked_color = (int) colors[ray->wall_val];
-    if (ray->side == 1)
-        picked_color /= 2;
+    // if (ray->side == 1)
+    //     picked_color /= 2;
     ray->wall_color = picked_color;
 }
 
@@ -163,8 +161,8 @@ void    draw(t_program *prg)
         ver_line(i, &ray, map, prg);
 		i++;
 	}
-    mlx_clear_window(prg->mlx, prg->mlx_win);
-    mlx_put_image_to_window(prg->mlx, prg->mlx_win, &prg->mlx_img.image, 0, 0);
+    // mlx_clear_window(prg->mlx, prg->mlx_win);
+    // mlx_put_image_to_window(prg->mlx, prg->mlx_win, &prg->img.mlx_img, 0, 0);
     printf("Drawing done\n\n");
 }
 
@@ -181,8 +179,7 @@ int    raycast(t_program *prg)
         return (1);
     }
     prg->draw = true;
-    draw(prg);
     while (1)
-        continue;
+        draw(prg);
     return (0);
 }
