@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 16:52:18 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/13 01:47:47 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/18 11:50:52 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int    exit_clean(t_program *prog)
     if (!prog)
         return (-1);
     free_map(prog->map_i);
-    mlx_destroy_image(prog->mlx, &prog->mlx_img);
     mlx_destroy_window(prog->mlx, prog->mlx_win);
     mlx_destroy_display(prog->mlx);
     free(prog->mlx);

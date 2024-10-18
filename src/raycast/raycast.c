@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/18 11:48:14 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/18 11:49:41 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
         pixel = prg->mlx_img.data
          + y++ * prg->mlx_img.size_line 
          + x * (prg->mlx_img.bpp / 8);
-        *(int *)pixel = ray->wall_color;
+        *(int *)pixel = 0x00FF0000;
     }
     return ;
 }
