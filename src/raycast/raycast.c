@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/18 12:47:39 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/18 12:57:20 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ void    set_perpendicular_distance(t_ray_cast *ray)
 
 void    calc_lineheight(t_ray_cast *ray)
 {
-    ray->line_height = (int)(HEIGHT_SCALE / ray->perpend_dist);
-    ray->draw_start = -ray->line_height / 2 + HEIGHT_SCALE / 2;
+    ray->line_height = (int)(WIN_VERT / ray->perpend_dist);
+    ray->draw_start = -ray->line_height / 2 + WIN_VERT / 2;
     if (ray->draw_start < 0)
         ray->draw_start = 0;
-    ray->draw_end = ray->line_height / 2 + HEIGHT_SCALE / 2;
-    if (ray->draw_end > HEIGHT_SCALE)
-        ray->draw_end = HEIGHT_SCALE -1;
+    ray->draw_end = ray->line_height / 2 + WIN_VERT / 2;
+    if (ray->draw_end > WIN_VERT)
+        ray->draw_end = WIN_VERT -1;
 }
 
 void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
@@ -106,12 +106,12 @@ void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
         ray->draw_end = ray->draw_start - ray->draw_end;
         ray->draw_start -= ray->draw_end;
     }
-    if(ray->draw_end < 0 || ray->draw_start >= HEIGHT_SCALE  || x < 0 || x >= map->cols)
+    if(ray->draw_end < 0 || ray->draw_start >= WIN_VERT  || x < 0 || x >= map->cols)
         return ;
     if (ray->draw_start < 0)
         ray->draw_start = 0;
     if(ray->draw_end >= map->cols)
-        ray->draw_end = HEIGHT_SCALE - 1;
+        ray->draw_end = WIN_VERT - 1;
     y = ray->draw_start;
     while (y <= ray->draw_end)
     {
@@ -181,8 +181,15 @@ int    raycast(t_program *prg)
     }
 	printf("DRAWING FOR THE %d time\n", calls + 1);
     draw(prg);
-	// if (calls % 100 == 0)
-	// 	player->dir_x = player->dir_x * cos(speedturning) - player->dir_y  * sin(speedturning);
+	if (calls % 100 == 0)
+{
+		double oldx = player->dir_x;
+		player->dir_x = player->dir_x * cos(speedturning) - player->dir_y  * sin(speedturning);
+		player->dir_y = oldx * cos(speedturning) + player->dir_y  * cos(speedturning);
+	double oldpx = player->plane_x;
+	player->plane_x = player->plane_x * cos(speedturning) - player->plane_y * sin(speedturning);
+	player->plane_y = oldpx * sin(speedturning) - player->plane_y * cos(speedturning);
+}
 	calls++;
     return (0);
 }

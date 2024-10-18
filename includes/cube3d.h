@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/18 12:43:54 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/18 12:51:27 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # define WIN_HORI 400//1280
 # define WIN_VERT 300//1024
 # define WIN_NAME "Cube3D"
-# define HEIGHT_SCALE 300
 # include "keys.h"
 # include "libft.h"
 
