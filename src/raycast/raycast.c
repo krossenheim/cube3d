@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/18 13:05:46 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/18 14:19:43 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 
 void    init_ray(t_player *player, int col, t_ray_cast *ray)
 {
-    ray->camera_x = 2 * col / (double) WIN_HORI - 1;
+    ray->camera_x = 2 * col / ((double) WIN_HORI) -1;
     ray->dir_x = player->dir_x + player->plane_x * ray->camera_x;
     ray->dir_y = player->dir_y + player->plane_y * ray->camera_x;
     ray->start_x = player->pos_x;
     ray->start_y = player->pos_y;
-    ray->delta_dist_x = ray->dir_x == 0 ? __DBL_MAX__ : fabs(1 / ray->dir_x);
-    ray->delta_dist_y = ray->dir_y == 0 ? __DBL_MAX__ : fabs(1 / ray->dir_y);
+    ray->delta_dist_x = (ray->dir_x == 0) ? __DBL_MAX__ : fabs(1 / ray->dir_x);
+    ray->delta_dist_y = (ray->dir_y == 0) ? __DBL_MAX__ : fabs(1 / ray->dir_y);
+	// printf("Dellxy:: %f,%f\n", ray->delta_dist_x, ray->delta_dist_y);
     ray->hit = 0;
 }
 
@@ -67,7 +68,6 @@ void      dda(t_ray_cast *ray, t_map_i *map)
           ray->side = 1;
         }
         //Check if ray has hit a wall
-		printf("Hit %d,%d\n", ray->start_x, ray->start_y);
         if (map->map[ray->start_x][ray->start_y] > 0)
         {
             ray->wall_val = map->map[ray->start_x][ray->start_y];
@@ -82,6 +82,7 @@ void    set_perpendicular_distance(t_ray_cast *ray)
 		ray->perpend_dist = (ray->side_dist_x - ray->delta_dist_x);
 	else
 		ray->perpend_dist = (ray->side_dist_y - ray->delta_dist_y);
+	printf("Perpdist: %f\n", ray->perpend_dist);
 }
 
 void    calc_lineheight(t_ray_cast *ray)
@@ -100,12 +101,14 @@ void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
     char    *pixel;
     int     y;
     
+	printf("rayend and start:%f, %f\n", ray->draw_end , ray->draw_start);
     if(ray->draw_end < ray->draw_start) 
     {
         ray->draw_start += ray->draw_end;
         ray->draw_end = ray->draw_start - ray->draw_end;
         ray->draw_start -= ray->draw_end;
     }
+	printf("rayend and start_:%f, %f\n", ray->draw_end , ray->draw_start);
     if(ray->draw_end < 0 || ray->draw_start >= WIN_VERT  || x < 0 || x >= map->cols)
         return ;
     if (ray->draw_start < 0)
@@ -113,16 +116,19 @@ void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
     if(ray->draw_end >= map->cols)
         ray->draw_end = WIN_VERT - 1;
     y = ray->draw_start;
-    while (y <= ray->draw_end)
+    while (ray->draw_start < ray->draw_end)
     {
+		// printf("x,y:%d,%d\n",x,y);
         pixel = prg->mlx_img.data
          + (y * prg->mlx_img.size_line 
          + x * (prg->mlx_img.bpp / 8));
         *(int *)pixel = ray->wall_color;
 		y++;
+        ray->draw_start++;
     }
     return ;
 }
+int calls = 0;
 
 void    set_wall_color(t_ray_cast *ray)
 {
@@ -132,9 +138,9 @@ void    set_wall_color(t_ray_cast *ray)
 
 	ray->wall_val = ray->wall_val % maxindex;
     picked_color = (int) colors[ray->wall_val];
-    if (ray->side == 0)
-        picked_color /= 2;
-    ray->wall_color = picked_color;
+    // if (ray->side == 1)
+    //     picked_color /= 2;
+    ray->wall_color = picked_color += calls;
 }
 
 void    draw(t_program *prg)
@@ -149,6 +155,7 @@ void    draw(t_program *prg)
 	i = 0;
 	while (WIN_HORI > i)
 	{
+		printf("i is %d", i);
         init_ray(player, i, &ray);
         calc_offset_x_y(&ray, player);
         dda(&ray, map);
@@ -164,19 +171,22 @@ void    draw(t_program *prg)
     mlx_put_image_to_window(prg->mlx, prg->mlx_win, prg->mlx_img.image, 0, 0);
 }
 
-int calls = 0;
 
 double speedturning = 0.2;
+
+// #include <sys/time.h>
+// long	timestamp(void)
+// {
+// 	struct timeval	t;
+
+// 	gettimeofday(&t, NULL);
+// 	return ((t.tv_sec * 1000) + (t.tv_usec / 1000));
+// }
+
 int    raycast(t_program *prg)
 {
     t_map_i     *map;
     t_player    *player;
-
-	double oldx;
-
-	double oldpx;
-
-	
     map = prg->map_i;
     player = &prg->player;
     if (!map || !player)
@@ -184,8 +194,12 @@ int    raycast(t_program *prg)
         write(1, "Superfatal error 4\n", 20);
         return (1);
     }
-	printf("DRAWING FOR THE %d time\n", calls + 1);
     draw(prg);
+
+
+
+	double oldx;
+	double oldpx;
 	oldx = player->dir_x;
 	player->dir_x = player->dir_x * cos(speedturning) - player->dir_y  * sin(speedturning);
 	player->dir_y = oldx * sin(speedturning) + player->dir_y  * cos(speedturning);

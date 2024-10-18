@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/18 12:51:27 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/18 13:55:13 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ typedef struct s_ray_cast
     int     hit;
     int     side;
 	int		line_height;
-	int		draw_start;
-	int		draw_end;
+	double	draw_start;
+	double	draw_end;
 	int		wall_val;
 	int		wall_color;
 }   t_ray_cast;

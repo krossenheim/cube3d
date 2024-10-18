@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 14:48:38 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/18 12:00:28 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/18 13:56:32 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void    set_pos(t_map_i *map, t_player *player)
         {
             if (map->map[i][j] == 0 && i > map->cols/2 && j > map->rows/2)
             {
-                player->pos_x = i;
-                player->pos_y = j;
+                player->pos_x = (double) i;
+                player->pos_y = (double) j;
                 return ;
             }
             j++;
@@ -48,9 +48,9 @@ bool    init_player(t_program *prg)
         return (false);
     }
     set_pos(map, player);
-    player->dir_x = 0;
-    player->dir_y = 1;
-    player->plane_x = 0;
-    player->plane_y = 2/3;
+    player->dir_x = -1.0;
+    player->dir_y = 0.0;
+    player->plane_x = 0.0;
+    player->plane_y = 0.66;
     return (true);
 }
