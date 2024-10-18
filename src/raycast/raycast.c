@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/18 12:57:20 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/18 13:05:46 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,18 +160,23 @@ void    draw(t_program *prg)
 	}
 	if (i == 0)
 		return ;
-    // mlx_clear_window(prg->mlx, prg->mlx_win);
+    mlx_clear_window(prg->mlx, prg->mlx_win);
     mlx_put_image_to_window(prg->mlx, prg->mlx_win, prg->mlx_img.image, 0, 0);
 }
 
 int calls = 0;
 
-double speedturning = 0.1;
+double speedturning = 0.2;
 int    raycast(t_program *prg)
 {
     t_map_i     *map;
     t_player    *player;
 
+	double oldx;
+
+	double oldpx;
+
+	
     map = prg->map_i;
     player = &prg->player;
     if (!map || !player)
@@ -181,15 +186,12 @@ int    raycast(t_program *prg)
     }
 	printf("DRAWING FOR THE %d time\n", calls + 1);
     draw(prg);
-	if (calls % 100 == 0)
-{
-		double oldx = player->dir_x;
-		player->dir_x = player->dir_x * cos(speedturning) - player->dir_y  * sin(speedturning);
-		player->dir_y = oldx * cos(speedturning) + player->dir_y  * cos(speedturning);
-	double oldpx = player->plane_x;
+	oldx = player->dir_x;
+	player->dir_x = player->dir_x * cos(speedturning) - player->dir_y  * sin(speedturning);
+	player->dir_y = oldx * sin(speedturning) + player->dir_y  * cos(speedturning);
+	oldpx = player->plane_x;
 	player->plane_x = player->plane_x * cos(speedturning) - player->plane_y * sin(speedturning);
-	player->plane_y = oldpx * sin(speedturning) - player->plane_y * cos(speedturning);
-}
+	player->plane_y = oldpx * sin(speedturning) + player->plane_y * cos(speedturning);
 	calls++;
     return (0);
 }
