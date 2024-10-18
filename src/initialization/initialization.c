@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 14:04:40 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/18 00:51:07 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/18 11:44:31 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,15 @@ static bool    initialize_mlx(t_program *prg)
 		return (false);
     }
 	prg->mlx_img.data = mlx_get_data_addr(prg->mlx_img.image,
-                            &prg->mlx_img.bpp, &prg->mlx_img.size_line, &prg->mlx_img.format);
+                            &prg->mlx_img.bpp, &prg->mlx_img.size_line, &prg->mlx_img.type);
     if (!prg->mlx_img.data)
     {
         write(1, "Failed to allocate memory for image data\n", 42);
         free(prg->mlx);
 		return (false);
     }
-    mlx_string_put(prg->mlx, prg->mlx_win, WIN_HORI/2, WIN_VERT/2, 255, "WTF!");
     mlx_loop_hook(prg->mlx, raycast, prg);
     do_mlx_hooks(prg);
-    mlx_loop(prg->mlx);
     return (true);
 }
 

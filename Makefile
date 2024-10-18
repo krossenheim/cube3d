@@ -79,7 +79,6 @@ run:
 
 clean:
 	rm	-f	$(OBJS) $(NAME)
-	$(MAKE) -C $(MLX_LIB_DIR) clean
 
 fclean:
 	rm	-f	$(OBJS) $(NAME)

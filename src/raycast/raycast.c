@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/13 01:55:23 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/18 11:48:14 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,10 @@ void    draw(t_program *prg)
 	while (map->cols > i)
 	{
         init_ray(player, map, i, &ray);
+		printf("%f,%f,%f,%d,%d\n\n",
+		 ray.camera_x, ray.dir_x, ray.delta_dist_x, ray.hit, ray.start_x);
+
+
         calc_offset_x_y(&ray, player);
         dda(&ray, map);
         set_perpendicular_distance(&ray);
@@ -163,10 +167,23 @@ void    draw(t_program *prg)
         ver_line(i, &ray, map, prg);
 		i++;
 	}
+	if (i == 0)
+		return ;
     mlx_clear_window(prg->mlx, prg->mlx_win);
-    mlx_put_image_to_window(prg->mlx, prg->mlx_win, &prg->mlx_img.image, 0, 0);
+    mlx_put_image_to_window(
+		prg->mlx,
+
+	 prg->mlx_win, 
+
+	 prg->mlx_img.image, 
+
+	 0, 
+	 
+	 0);
     printf("Drawing done\n\n");
 }
+
+int calls = 0;
 
 int    raycast(t_program *prg)
 {
@@ -180,9 +197,8 @@ int    raycast(t_program *prg)
         write(1, "Superfatal error 4\n", 20);
         return (1);
     }
-    prg->draw = true;
+	printf("DRAWING FOR THE %d time\n", calls + 1);
     draw(prg);
-    while (1)
-        continue;
+	calls++;
     return (0);
 }
