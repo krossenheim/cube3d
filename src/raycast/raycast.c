@@ -6,15 +6,15 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/18 11:49:41 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/18 12:47:39 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-void    init_ray(t_player *player, t_map_i *map, int col, t_ray_cast *ray)
+void    init_ray(t_player *player, int col, t_ray_cast *ray)
 {
-    ray->camera_x = 2 * col / (double) map->cols - 1;
+    ray->camera_x = 2 * col / (double) WIN_HORI - 1;
     ray->dir_x = player->dir_x + player->plane_x * ray->camera_x;
     ray->dir_y = player->dir_y + player->plane_y * ray->camera_x;
     ray->start_x = player->pos_x;
@@ -67,9 +67,9 @@ void      dda(t_ray_cast *ray, t_map_i *map)
           ray->side = 1;
         }
         //Check if ray has hit a wall
+		printf("Hit %d,%d\n", ray->start_x, ray->start_y);
         if (map->map[ray->start_x][ray->start_y] > 0)
         {
-            printf("Ray hit at %d,%d\n",ray->start_x, ray->start_y);
             ray->wall_val = map->map[ray->start_x][ray->start_y];
             ray->hit = 1;
         }
@@ -78,13 +78,10 @@ void      dda(t_ray_cast *ray, t_map_i *map)
 
 void    set_perpendicular_distance(t_ray_cast *ray)
 {
-    if (ray->hit)
-    {
-        if(ray->side == 0)
-            ray->perpend_dist = (ray->side_dist_x - ray->delta_dist_x);
-        else
-            ray->perpend_dist = (ray->side_dist_y - ray->delta_dist_y);
-    }
+	if(ray->side == 0)
+		ray->perpend_dist = (ray->side_dist_x - ray->delta_dist_x);
+	else
+		ray->perpend_dist = (ray->side_dist_y - ray->delta_dist_y);
 }
 
 void    calc_lineheight(t_ray_cast *ray)
@@ -119,9 +116,10 @@ void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
     while (y <= ray->draw_end)
     {
         pixel = prg->mlx_img.data
-         + y++ * prg->mlx_img.size_line 
-         + x * (prg->mlx_img.bpp / 8);
-        *(int *)pixel = 0x00FF0000;
+         + (y * prg->mlx_img.size_line 
+         + x * (prg->mlx_img.bpp / 8));
+        *(int *)pixel = ray->wall_color;
+		y++;
     }
     return ;
 }
@@ -129,15 +127,12 @@ void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
 void    set_wall_color(t_ray_cast *ray)
 {
     int     maxindex = 4;
-    int     colors[] = {255, 65280, 1677214, 1671100, 825000};
+    int     colors[] = {0x00FF0000, 0x00FF0000, 1677214, 1671100, 825000};
     int     picked_color;
 
-    while (ray->wall_val < 0)
-        ray->wall_val += maxindex;
-    while (ray->wall_val > maxindex)
-        ray->wall_val -= maxindex;
+	ray->wall_val = ray->wall_val % maxindex;
     picked_color = (int) colors[ray->wall_val];
-    if (ray->side == 1)
+    if (ray->side == 0)
         picked_color /= 2;
     ray->wall_color = picked_color;
 }
@@ -152,13 +147,9 @@ void    draw(t_program *prg)
     map = prg->map_i;
     player = &prg->player;
 	i = 0;
-	while (map->cols > i)
+	while (WIN_HORI > i)
 	{
-        init_ray(player, map, i, &ray);
-		printf("%f,%f,%f,%d,%d\n\n",
-		 ray.camera_x, ray.dir_x, ray.delta_dist_x, ray.hit, ray.start_x);
-
-
+        init_ray(player, i, &ray);
         calc_offset_x_y(&ray, player);
         dda(&ray, map);
         set_perpendicular_distance(&ray);
@@ -169,22 +160,13 @@ void    draw(t_program *prg)
 	}
 	if (i == 0)
 		return ;
-    mlx_clear_window(prg->mlx, prg->mlx_win);
-    mlx_put_image_to_window(
-		prg->mlx,
-
-	 prg->mlx_win, 
-
-	 prg->mlx_img.image, 
-
-	 0, 
-	 
-	 0);
-    printf("Drawing done\n\n");
+    // mlx_clear_window(prg->mlx, prg->mlx_win);
+    mlx_put_image_to_window(prg->mlx, prg->mlx_win, prg->mlx_img.image, 0, 0);
 }
 
 int calls = 0;
 
+double speedturning = 0.1;
 int    raycast(t_program *prg)
 {
     t_map_i     *map;
@@ -199,6 +181,8 @@ int    raycast(t_program *prg)
     }
 	printf("DRAWING FOR THE %d time\n", calls + 1);
     draw(prg);
+	// if (calls % 100 == 0)
+	// 	player->dir_x = player->dir_x * cos(speedturning) - player->dir_y  * sin(speedturning);
 	calls++;
     return (0);
 }

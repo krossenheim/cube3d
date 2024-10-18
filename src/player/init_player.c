@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 14:48:38 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/05 01:58:14 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/10/18 12:00:28 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ bool    init_player(t_program *prg)
     }
     set_pos(map, player);
     player->dir_x = 0;
-    player->dir_y = -1;
+    player->dir_y = 1;
     player->plane_x = 0;
     player->plane_y = 2/3;
     return (true);
