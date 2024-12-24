@@ -53,7 +53,7 @@ void      dda(t_ray_cast *ray, t_map_i *map)
 {
           //perform DDA
       while (ray->hit == 0)
-      { 
+      {
         //jump to next map square, either in x-direction, or in y-direction
         if (ray->side_dist_x < ray->side_dist_y)
         {
@@ -73,7 +73,7 @@ void      dda(t_ray_cast *ray, t_map_i *map)
             ray->wall_val = map->map[ray->start_x][ray->start_y];
             ray->hit = 1;
         }
-      } 
+      }
 }
 
 void    set_perpendicular_distance(t_ray_cast *ray)
@@ -100,9 +100,9 @@ void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
 {
     char    *pixel;
     int     y;
-    
+
 	printf("rayend and start:%f, %f\n", ray->draw_end , ray->draw_start);
-    if(ray->draw_end < ray->draw_start) 
+    if(ray->draw_end < ray->draw_start)
     {
         ray->draw_start += ray->draw_end;
         ray->draw_end = ray->draw_start - ray->draw_end;
@@ -119,8 +119,28 @@ void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
     while (ray->draw_start < ray->draw_end)
     {
 		// printf("x,y:%d,%d\n",x,y);
+        // (640, 480, 3)
+
+        mlx_img.data[0] // pixel 0,0 (R)
+        mlx_img.data[1] // pixel 0,0 (G)
+        mlx_img.data[2] // pixel 0,0 (B)
+        mlx_img.data[3] // pixel 1,0 (R)
+        mlx_img.data[4] // pixel 1,0 (G)
+        mlx_img.data[5] // pixel 1,0 (B)
+
+
+        BYTES_PER_PIXEL = 3 // color
+        // BYTES_PER_PIXEL = 1 // grayscale
+
+        x = 0
+        y = 1
+        mlx_img.data + y * WIN_HORI + x * BYTES_PER_PIXEL
+        mlx_img.data + 640 + 0 = 640
+
+
+
         pixel = prg->mlx_img.data
-         + (y * prg->mlx_img.size_line 
+         + (y * prg->mlx_img.size_line
          + x * (prg->mlx_img.bpp / 8));
         *(int *)pixel = ray->wall_color;
 		y++;
