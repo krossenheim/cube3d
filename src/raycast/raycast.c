@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/04 23:21:42 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/04 23:50:58 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,16 +109,15 @@ void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
         ray->draw_end = ray->draw_start - ray->draw_end;
         ray->draw_start -= ray->draw_end;
     }
-    if(ray->draw_end < 0 || ray->draw_start >= WIN_VERT  || x < 0 || x >= map->cols)
+    if(ray->draw_end < 0 || ray->draw_start >= WIN_VERT  || x < 0 || x >= WIN_HORI)
         return ;
     if (ray->draw_start < 0)
         ray->draw_start = 0;
     if(ray->draw_end >= map->cols)
         ray->draw_end = WIN_VERT - 1;
     y = ray->draw_start;
-    while (ray->draw_start < ray->draw_end)
+    while (y < ray->draw_end)
     {
-		printf("x,y:%d,%d\n",x,y);
         // (640, 480, 3)
 
         // mlx_img.data[0] // pixel 0,0 (R)
@@ -144,7 +143,6 @@ void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
          + x * 3;
         *(int *)pixel = ray->wall_color;
 		y++;
-        ray->draw_start++;
     }
     return ;
 }
@@ -160,7 +158,7 @@ void    set_wall_color(t_ray_cast *ray)
     //picked_color = (int) colors[ray->wall_val];
     // if (ray->side == 1)
     //     picked_color /= 2;
-    ray->wall_color = 1677214;
+    ray->wall_color = 1671100;
 }
 
 void    draw(t_program *prg)
@@ -173,6 +171,7 @@ void    draw(t_program *prg)
     map = prg->map_i;
     player = &prg->player;
 	i = 0;
+	ft_memset(prg->mlx_img.data, 0, WIN_HORI * WIN_VERT * 3);
 	while (WIN_HORI > i)
 	{
 		printf("i is %d", i);
