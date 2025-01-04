@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/18 13:55:13 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/04 23:14:25 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,10 @@
 # include <stdlib.h>
 # include <math.h>
 # include <float.h>
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
-# endif 
+# define BUFFER_SIZE 1
 # include "debug.h"
-# define WIN_HORI 400//1280
-# define WIN_VERT 300//1024
+# define WIN_HORI 1000//1280
+# define WIN_VERT 600//1024
 # define WIN_NAME "Cube3D"
 # include "keys.h"
 # include "libft.h"
@@ -100,6 +98,10 @@ char		*ft_strdup(const char *s1);
 
 // Keys on-press
 int			escape_pressed(void *address);
+int			move_forward(void *address);
+int			move_back(void *address);
+int			rotate_left(void *address);
+int			rotate_right(void *address);
 int			debug_keypress(void *address, int key);
 
 //get_next_line

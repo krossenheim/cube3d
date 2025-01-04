@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:04 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/18 11:24:17 by jose-lop      ########   odam.nl         */
+/*   Updated: 2024/12/06 15:21:58 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void start_mlx(t_program *prg)
 {
-    mlx_string_put(prg->mlx, prg->mlx_win, WIN_HORI/2, WIN_VERT/2, 255, "WTF!");
     mlx_loop(prg->mlx);
 }
 

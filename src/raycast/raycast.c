@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/18 14:19:43 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/04 23:21:42 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ void    set_perpendicular_distance(t_ray_cast *ray)
 		ray->perpend_dist = (ray->side_dist_x - ray->delta_dist_x);
 	else
 		ray->perpend_dist = (ray->side_dist_y - ray->delta_dist_y);
+    if (ray->perpend_dist < 0)
+		ray->perpend_dist *= -1;
 	printf("Perpdist: %f\n", ray->perpend_dist);
 }
 
@@ -101,14 +103,12 @@ void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
     char    *pixel;
     int     y;
 
-	printf("rayend and start:%f, %f\n", ray->draw_end , ray->draw_start);
     if(ray->draw_end < ray->draw_start)
     {
         ray->draw_start += ray->draw_end;
         ray->draw_end = ray->draw_start - ray->draw_end;
         ray->draw_start -= ray->draw_end;
     }
-	printf("rayend and start_:%f, %f\n", ray->draw_end , ray->draw_start);
     if(ray->draw_end < 0 || ray->draw_start >= WIN_VERT  || x < 0 || x >= map->cols)
         return ;
     if (ray->draw_start < 0)
@@ -118,30 +118,30 @@ void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
     y = ray->draw_start;
     while (ray->draw_start < ray->draw_end)
     {
-		// printf("x,y:%d,%d\n",x,y);
+		printf("x,y:%d,%d\n",x,y);
         // (640, 480, 3)
 
-        mlx_img.data[0] // pixel 0,0 (R)
-        mlx_img.data[1] // pixel 0,0 (G)
-        mlx_img.data[2] // pixel 0,0 (B)
-        mlx_img.data[3] // pixel 1,0 (R)
-        mlx_img.data[4] // pixel 1,0 (G)
-        mlx_img.data[5] // pixel 1,0 (B)
+        // mlx_img.data[0] // pixel 0,0 (R)
+        // mlx_img.data[1] // pixel 0,0 (G)
+        // mlx_img.data[2] // pixel 0,0 (B)
+        // mlx_img.data[3] // pixel 1,0 (R)
+        // mlx_img.data[4] // pixel 1,0 (G)
+        // mlx_img.data[5] // pixel 1,0 (B)
 
 
-        BYTES_PER_PIXEL = 3 // color
-        // BYTES_PER_PIXEL = 1 // grayscale
+        // // BYTES_PER_PIXEL = 3 // color
+        // // BYTES_PER_PIXEL = 1 // grayscale
 
-        x = 0
-        y = 1
-        mlx_img.data + y * WIN_HORI + x * BYTES_PER_PIXEL
-        mlx_img.data + 640 + 0 = 640
+        // x = 0
+        // y = 1
+        // mlx_img.data + y * WIN_HORI + x * 3
+        // mlx_img.data + 640 + 0 = 640
 
 
 
         pixel = prg->mlx_img.data
-         + (y * prg->mlx_img.size_line
-         + x * (prg->mlx_img.bpp / 8));
+         + y * WIN_HORI
+         + x * 3;
         *(int *)pixel = ray->wall_color;
 		y++;
         ray->draw_start++;
@@ -152,15 +152,15 @@ int calls = 0;
 
 void    set_wall_color(t_ray_cast *ray)
 {
-    int     maxindex = 4;
-    int     colors[] = {0x00FF0000, 0x00FF0000, 1677214, 1671100, 825000};
-    int     picked_color;
+    //int     maxindex = 4;
+    //int     colors[] = {0x00FF0000, 0x00FF0000, 1677214, 1671100, 825000};
+    //int     picked_color;
 
-	ray->wall_val = ray->wall_val % maxindex;
-    picked_color = (int) colors[ray->wall_val];
+	//ray->wall_val = ray->wall_val % maxindex;
+    //picked_color = (int) colors[ray->wall_val];
     // if (ray->side == 1)
     //     picked_color /= 2;
-    ray->wall_color = picked_color += calls;
+    ray->wall_color = 1677214;
 }
 
 void    draw(t_program *prg)
@@ -187,12 +187,11 @@ void    draw(t_program *prg)
 	}
 	if (i == 0)
 		return ;
-    mlx_clear_window(prg->mlx, prg->mlx_win);
+	mlx_clear_window(prg->mlx, prg->mlx_win);
     mlx_put_image_to_window(prg->mlx, prg->mlx_win, prg->mlx_img.image, 0, 0);
 }
 
 
-double speedturning = 0.2;
 
 // #include <sys/time.h>
 // long	timestamp(void)
@@ -207,6 +206,7 @@ int    raycast(t_program *prg)
 {
     t_map_i     *map;
     t_player    *player;
+    
     map = prg->map_i;
     player = &prg->player;
     if (!map || !player)
@@ -215,17 +215,7 @@ int    raycast(t_program *prg)
         return (1);
     }
     draw(prg);
-
-
-
-	double oldx;
-	double oldpx;
-	oldx = player->dir_x;
-	player->dir_x = player->dir_x * cos(speedturning) - player->dir_y  * sin(speedturning);
-	player->dir_y = oldx * sin(speedturning) + player->dir_y  * cos(speedturning);
-	oldpx = player->plane_x;
-	player->plane_x = player->plane_x * cos(speedturning) - player->plane_y * sin(speedturning);
-	player->plane_y = oldpx * sin(speedturning) + player->plane_y * cos(speedturning);
 	calls++;
+	printf("%i calls\n", calls);
     return (0);
 }
