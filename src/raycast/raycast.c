@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/04 23:50:58 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/04 23:52:25 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,8 @@ void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
          + y * WIN_HORI
          + x * 3;
         *(int *)pixel = ray->wall_color;
+		*(int *)(pixel + 1) = ray->wall_color;
+		*(int *)(pixel + 2)= ray->wall_color;
 		y++;
     }
     return ;
