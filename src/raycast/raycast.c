@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/08 07:22:04 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/08 19:46:56 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,9 @@ void      dda(t_ray_cast *ray, t_map_i *map)
 void    set_perpendicular_distance(t_ray_cast *ray)
 {
 	if(ray->side == 0)
-		ray->perpend_dist = (- ray->side_dist_x + ray->delta_dist_x);
+		ray->perpend_dist = (ray->side_dist_x - ray->delta_dist_x);
 	else
-		ray->perpend_dist = (-ray->side_dist_y + ray->delta_dist_y);
-	printf("Perpdist: %f\n", ray->perpend_dist);
+		ray->perpend_dist = (ray->side_dist_y - ray->delta_dist_y);
 }
 
 void    calc_lineheight(t_ray_cast *ray)
@@ -96,7 +95,7 @@ void    calc_lineheight(t_ray_cast *ray)
         ray->draw_end = WIN_VERT -1;
 }
 
-void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
+void    ver_line(int x, t_ray_cast *ray, t_program *prg)
 {
     char    *pixel;
     int     y;
@@ -111,8 +110,8 @@ void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
         return ;
     if (ray->draw_start < 0)
         ray->draw_start = 0;
-    if(ray->draw_end >= map->cols)
-        ray->draw_end = WIN_VERT - 1;
+	if(ray->draw_end >= WIN_VERT)
+		ray->draw_end = WIN_VERT - 1;
     y = ray->draw_start;
     while (y < ray->draw_end)
     {
@@ -138,8 +137,8 @@ void    ver_line(int x, t_ray_cast *ray, t_map_i *map, t_program *prg)
 
         pixel = prg->mlx_img.data
          + y * WIN_HORI
-         + x ;
-		*(char *)pixel = 175;
+         + x;
+		*pixel = ray->wall_color;
 		// *(int *)(pixel + 1) = 25;
 		// *(int *)(pixel + 2)= 0;
 		y++;
@@ -154,11 +153,11 @@ void    set_wall_color(t_ray_cast *ray)
     //int     colors[] = {0x00FF0000, 0x00FF0000, 1677214, 1671100, 825000};
     //int     picked_color;
 
-	//ray->wall_val = ray->wall_val % maxindex;
+	//ray->wall_vals = ray->wall_val % maxindex;
     //picked_color = (int) colors[ray->wall_val];
     // if (ray->side == 1)
     //     picked_color /= 2;
-    ray->wall_color = 1671100;
+    ray->wall_color = 1677214;
 }
 
 void    draw(t_program *prg)
@@ -171,14 +170,15 @@ void    draw(t_program *prg)
     map = prg->map_i;
     player = &prg->player;
 	i = 0;
-	ft_memset(prg->mlx_img.data, 0, WIN_HORI * WIN_VERT * 3);
+	ft_memset(prg->mlx_img.data, 0, WIN_HORI * WIN_VERT);
 	while (WIN_HORI > i)
 	{
-		printf("i is %d", i);
         init_ray(player, i, &ray);
         calc_offset_x_y(&ray, player);
         dda(&ray, map);
         set_perpendicular_distance(&ray);
+		if ( i == WIN_HORI / 2)
+			printf("Perpdist MIDDLE: %f\n", ray.perpend_dist);
         calc_lineheight(&ray);
         set_wall_color(&ray);
         ver_line(i, &ray, map, prg);
@@ -187,7 +187,7 @@ void    draw(t_program *prg)
 	if (i == 0)
 		return ;
 	mlx_clear_window(prg->mlx, prg->mlx_win);
-    mlx_put_image_to_window(prg->mlx, prg->mlx_win, prg->mlx_img.image, 0, 0);
+    mlx_put_image_to_window(prg->mlx, prg->mlx_win, prg->mlx_img.image, 0, 300);
 }
 
 
