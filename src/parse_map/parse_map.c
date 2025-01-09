@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/03 23:30:52 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/09 19:20:21 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/09 19:57:15 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,10 +160,7 @@ bool       fill_intarr_with_str(int *dest, char *str)
     i = 0;
     while (str[i] != '\0')
     {
-        if (str[i] == '0')
-            dest[i] = 0;
-        else
-            dest[i] = 1;
+        dest[i] = str[i] - 48;
         i++;
     }
     return (true);

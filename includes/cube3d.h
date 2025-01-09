@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/09 18:42:04 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/09 19:41:31 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ typedef struct s_player
 	double			plane_y;
 	double			dir_x;
 	double			dir_y;
-	long double			pos_x;
-	long double			pos_y;
+	double			pos_x;
+	double			pos_y;
 }	t_player;
 
 typedef struct s_map_i

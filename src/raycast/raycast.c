@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/09 19:33:36 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/09 20:05:42 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void    init_ray(t_player *player, int col, t_ray_cast *ray)
     ray->camera_x = 2 * col / ((double) WIN_HORI) -1;
     ray->dir_x = player->dir_x + player->plane_x * ray->camera_x;
     ray->dir_y = player->dir_y + player->plane_y * ray->camera_x;
-    ray->start_x = player->pos_x;
-    ray->start_y = player->pos_y;
+    ray->start_x = (int)player->pos_x;
+    ray->start_y = (int)player->pos_y;
     ray->delta_dist_x = (ray->dir_x == 0) ? __DBL_MAX__ : fabs(1 / ray->dir_x);
     ray->delta_dist_y = (ray->dir_y == 0) ? __DBL_MAX__ : fabs(1 / ray->dir_y);
 	// printf("Dellxy:: %f,%f\n", ray->delta_dist_x, ray->delta_dist_y);
@@ -71,6 +71,7 @@ void      check_on_grid_only(t_ray_cast *ray, t_map_i *map)
         {
             ray->wall_val = map->map[ray->start_x][ray->start_y];
             ray->hit = 1;
+			printf("Hit wall xy/val: '%i,%i/%i\n", ray->start_x, ray->start_y, ray->wall_val);
         }
       }
 }
@@ -144,12 +145,12 @@ void    ver_line(int x, t_ray_cast *ray, t_program *prg)
 }
 int calls = 0;
 
-void    set_wall_color(t_ray_cast *ray)
+void    set_wall_color(t_ray_cast *ray, int mapped_wall_val)
 {
 	int     maxindex = 6;
-	int     colors[] = {0x00FF0000, 0x000000FF,0x00FF0000, 1677214, 1671100, 825000};
+	int     colors[] = {0x00FF0000, 0x00000F0F,0x00FF00FF, 1677214, 1671100, 825000};
 
-	ray->wall_val = ray->wall_val % maxindex;
+	ray->wall_val = mapped_wall_val % maxindex;
 	ray->wall_color = (int) colors[ray->wall_val];
 	if (ray->side == 1)
 		ray->wall_color *= 0.75;
@@ -173,7 +174,7 @@ void    draw(t_program *prg)
         check_on_grid_only(&ray, map);
         set_perpendicular_distance(&ray);
         calc_lineheight(&ray);
-        set_wall_color(&ray);
+        set_wall_color(&ray, map->map[(int)player->pos_x][(int)player->pos_y]);
         ver_line(i, &ray, prg);
 		i++;
 	}
@@ -250,6 +251,5 @@ int    raycast(t_program *prg)
 	else
 		drawdebug(prg);
 	calls++;
-	printf("%i calls\n", calls);
     return (0);
 }
