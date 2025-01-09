@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/09 17:19:25 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/09 17:44:17 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,6 @@ void    ver_line(int x, t_ray_cast *ray, t_program *prg)
          + y * prg->mlx_img.size_line
          + x * prg->mlx_img.bpp / 8;
 		*(int *)pixel = ray->wall_color;
-		// *(int *)(pixel + 1) = 25;
-		// *(int *)(pixel + 2)= 0;
 		y++;
     }
     return ;
@@ -149,9 +147,9 @@ int calls = 0;
 
 void    set_wall_color(t_ray_cast *ray)
 {
-    ray->wall_color = 0x00FF0000;
+    ray->wall_color = 0x00FF0000 * 1/(ray->perpend_dist/2);
 	if (ray->side == 1)
-        ray->wall_color /= 2;
+        ray->wall_color *= 0.75;
 }
 
 void    draw(t_program *prg)
@@ -164,7 +162,7 @@ void    draw(t_program *prg)
     map = prg->map_i;
     player = &prg->player;
 	i = 0;
-	ft_memset(prg->mlx_img.data, 0, WIN_HORI * WIN_VERT);
+	ft_memset(prg->mlx_img.data, 0, WIN_HORI * WIN_VERT * sizeof(int));
 	while (WIN_HORI > i)
 	{
         init_ray(player, i, &ray);
