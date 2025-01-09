@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/09 06:55:07 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/09 18:42:04 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ int			move_back(void *address);
 int			rotate_left(void *address);
 int			rotate_right(void *address);
 int			debug_keypress(void *address, int key);
-
+int			strafe_left(void *address);
+int			strafe_right(void *address);
 //get_next_line
 char		*get_next_line(int fd);
 

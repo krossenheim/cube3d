@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/21 15:32:33 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/09 18:11:49 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/09 19:08:02 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,38 @@ int		move_back(void *address)
 	return (1);
 }
 
+int		strafe_left(void *address)
+{
+    t_program *p;
+	int			**maparray;
+	// Swap the direction vectors and negate one
+    p = (t_program *) address;
+    if (!p)
+		return (-1);
+	maparray = p->map_i->map;
+	if (maparray[(int)(p->player.pos_x - p->player.dir_y * speedmoving)][(int)p->player.pos_y] == 0)
+		p->player.pos_x -= p->player.dir_x * speedmoving;
+	if (maparray[(int)p->player.pos_x][(int)(p->player.pos_y + p->player.dir_x * speedmoving)] == 0)
+		p->player.pos_y += p->player.dir_y * speedmoving;
+	return (1);
+}
+
+int		strafe_right(void *address)
+{
+    t_program *p;
+	int			**maparray;
+	// Swap the direction vectors and negate one
+
+    p = (t_program *) address;
+    if (!p)
+		return (-1);
+	maparray = p->map_i->map;
+	if (maparray[(int)(p->player.pos_x + p->player.dir_y * speedmoving)][(int)p->player.pos_y] == 0)
+		p->player.pos_x += p->player.dir_x * speedmoving;
+	if (maparray[(int)p->player.pos_x][(int)(p->player.pos_y - p->player.dir_x * speedmoving)] == 0)
+		p->player.pos_y -= p->player.dir_y * speedmoving;
+	return (1);
+}
 
 int		rotate_left(void *address)
 {
@@ -66,7 +98,7 @@ int		rotate_left(void *address)
     p = (t_program *) address;
     if (!p)
         return (-1);
-    double speedturning = 0.02;
+    double speedturning = 0.2;
 	double oldx;
 	double oldpx;
 	oldx = p->player.dir_x;
@@ -85,7 +117,7 @@ int		rotate_right(void *address)
     p = (t_program *) address;
     if (!p)
         return (-1);
-    double speedturning = -0.02;
+    double speedturning = -0.2;
 	double oldx;
 	double oldpx;
 	oldx = p->player.dir_x;
