@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/09 17:44:17 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/09 18:08:16 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,9 +147,9 @@ int calls = 0;
 
 void    set_wall_color(t_ray_cast *ray)
 {
-    ray->wall_color = 0x00FF0000 * 1/(ray->perpend_dist/2);
+    ray->wall_color = 0xFFFF0000;
 	if (ray->side == 1)
-        ray->wall_color *= 0.75;
+        ray->wall_color *= 0.97;
 }
 
 void    draw(t_program *prg)

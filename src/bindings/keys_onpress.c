@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/21 15:32:33 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/09 17:59:02 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/09 18:11:49 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		escape_pressed(void *address)
 	return (1);
 }
 
-double speedmoving = 0.05;
+double speedmoving = 0.1;
 
 int		move_forward(void *address)
 {
@@ -35,9 +35,9 @@ int		move_forward(void *address)
     if (!p)
 		return (-1);
 	maparray = p->map_i->map;
-	if (maparray[(int)(p->player.pos_x + p->player.dir_x * speedmoving)][(int)p->player.pos_y] != 0)
+	if (maparray[(int)(p->player.pos_x + p->player.dir_x * speedmoving)][(int)p->player.pos_y] == 0)
 		p->player.pos_x += p->player.dir_x * speedmoving;
-	if (maparray[(int)p->player.pos_x][(int)(p->player.pos_y + p->player.dir_y * speedmoving)] != 0)
+	if (maparray[(int)p->player.pos_x][(int)(p->player.pos_y + p->player.dir_y * speedmoving)] == 0)
 		p->player.pos_y += p->player.dir_y * speedmoving;
 	return (1);
 }
@@ -51,9 +51,9 @@ int		move_back(void *address)
     if (!p)
 		return (-1);
 	maparray = p->map_i->map;
-	if (maparray[(int)(p->player.pos_x - p->player.dir_x * speedmoving)][(int)p->player.pos_y] != 0)
+	if (maparray[(int)(p->player.pos_x - p->player.dir_x * speedmoving)][(int)p->player.pos_y] == 0)
 		p->player.pos_x -= p->player.dir_x * speedmoving;
-	if (maparray[(int)p->player.pos_x][(int)(p->player.pos_y - p->player.dir_y * speedmoving)] != 0)
+	if (maparray[(int)p->player.pos_x][(int)(p->player.pos_y - p->player.dir_y * speedmoving)] == 0)
 		p->player.pos_y -= p->player.dir_y * speedmoving;
 	return (1);
 }
@@ -84,14 +84,14 @@ int		rotate_right(void *address)
 
     p = (t_program *) address;
     if (!p)
-		return (-1);
-    double speedturning = 0.02;
+        return (-1);
+    double speedturning = -0.02;
 	double oldx;
 	double oldpx;
-	oldx = -p->player.dir_x;
+	oldx = p->player.dir_x;
 	p->player.dir_x = p->player.dir_x * cos(speedturning) - p->player.dir_y  * sin(speedturning);
 	p->player.dir_y = oldx * sin(speedturning) + p->player.dir_y  * cos(speedturning);
-	oldpx = -p->player.plane_x;
+	oldpx = p->player.plane_x;
 	p->player.plane_x = p->player.plane_x * cos(speedturning) - p->player.plane_y * sin(speedturning);
 	p->player.plane_y = oldpx * sin(speedturning) + p->player.plane_y * cos(speedturning);
 	return (1);
