@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/09 19:25:31 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/09 19:33:36 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,8 @@ void    calc_offset_x_y(t_ray_cast *ray, t_player *player)
       }
 }
 
-void      dda(t_ray_cast *ray, t_map_i *map)
+void      check_on_grid_only(t_ray_cast *ray, t_map_i *map)
 {
-          //perform DDA
       while (ray->hit == 0)
       {
         //jump to next map square, either in x-direction, or in y-direction
@@ -147,7 +146,7 @@ int calls = 0;
 
 void    set_wall_color(t_ray_cast *ray)
 {
-	int     maxindex = 4;
+	int     maxindex = 6;
 	int     colors[] = {0x00FF0000, 0x000000FF,0x00FF0000, 1677214, 1671100, 825000};
 
 	ray->wall_val = ray->wall_val % maxindex;
@@ -171,7 +170,7 @@ void    draw(t_program *prg)
 	{
         init_ray(player, i, &ray);
         calc_offset_x_y(&ray, player);
-        dda(&ray, map);
+        check_on_grid_only(&ray, map);
         set_perpendicular_distance(&ray);
         calc_lineheight(&ray);
         set_wall_color(&ray);
