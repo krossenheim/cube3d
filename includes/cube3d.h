@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/04 23:14:25 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/09 06:55:07 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <float.h>
 # define BUFFER_SIZE 1
 # include "debug.h"
-# define WIN_HORI 1000//1280
+# define WIN_HORI 600//1280
 # define WIN_VERT 600//1024
 # define WIN_NAME "Cube3D"
 # include "keys.h"
@@ -56,8 +56,8 @@ typedef struct s_player
 	double			plane_y;
 	double			dir_x;
 	double			dir_y;
-	double			pos_x;
-	double			pos_y;
+	long double			pos_x;
+	long double			pos_y;
 }	t_player;
 
 typedef struct s_map_i

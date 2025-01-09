@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/08 19:46:56 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/09 17:18:13 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void      dda(t_ray_cast *ray, t_map_i *map)
 
 void    set_perpendicular_distance(t_ray_cast *ray)
 {
-	if(ray->side == 0)
+	if (ray->side == 0)
 		ray->perpend_dist = (ray->side_dist_x - ray->delta_dist_x);
 	else
 		ray->perpend_dist = (ray->side_dist_y - ray->delta_dist_y);
@@ -107,9 +107,9 @@ void    ver_line(int x, t_ray_cast *ray, t_program *prg)
         ray->draw_start -= ray->draw_end;
     }
     if(ray->draw_end < 0 || ray->draw_start >= WIN_VERT  || x < 0 || x >= WIN_HORI)
-        return ;
+		return ;
     if (ray->draw_start < 0)
-        ray->draw_start = 0;
+		ray->draw_start = 0;
 	if(ray->draw_end >= WIN_VERT)
 		ray->draw_end = WIN_VERT - 1;
     y = ray->draw_start;
@@ -136,9 +136,9 @@ void    ver_line(int x, t_ray_cast *ray, t_program *prg)
 
 
         pixel = prg->mlx_img.data
-         + y * WIN_HORI
-         + x;
-		*pixel = ray->wall_color;
+         + y * prg->mlx_img.size_line
+         + x * prg->mlx_img.bpp / 8;
+		*(int *)pixel = ray->wall_color;
 		// *(int *)(pixel + 1) = 25;
 		// *(int *)(pixel + 2)= 0;
 		y++;
@@ -149,15 +149,13 @@ int calls = 0;
 
 void    set_wall_color(t_ray_cast *ray)
 {
-    //int     maxindex = 4;
-    //int     colors[] = {0x00FF0000, 0x00FF0000, 1677214, 1671100, 825000};
-    //int     picked_color;
+    int     maxindex = 4;
+    int     colors[] = {0x00FF0000, 0x00FF0000, 1677214, 1671100, 825000};
 
-	//ray->wall_vals = ray->wall_val % maxindex;
-    //picked_color = (int) colors[ray->wall_val];
-    // if (ray->side == 1)
-    //     picked_color /= 2;
-    ray->wall_color = 1677214;
+	ray->wall_val = ray->wall_val % maxindex;
+    ray->wall_color = (int) colors[ray->wall_val];
+	if (ray->side == 1)
+        ray->wall_color /= 2;
 }
 
 void    draw(t_program *prg)
@@ -177,17 +175,15 @@ void    draw(t_program *prg)
         calc_offset_x_y(&ray, player);
         dda(&ray, map);
         set_perpendicular_distance(&ray);
-		if ( i == WIN_HORI / 2)
-			printf("Perpdist MIDDLE: %f\n", ray.perpend_dist);
         calc_lineheight(&ray);
         set_wall_color(&ray);
-        ver_line(i, &ray, map, prg);
+        ver_line(i, &ray, prg);
 		i++;
 	}
 	if (i == 0)
 		return ;
 	mlx_clear_window(prg->mlx, prg->mlx_win);
-    mlx_put_image_to_window(prg->mlx, prg->mlx_win, prg->mlx_img.image, 0, 300);
+    mlx_put_image_to_window(prg->mlx, prg->mlx_win, prg->mlx_img.image, 0, 0);
 }
 
 
@@ -201,6 +197,45 @@ void    draw(t_program *prg)
 // 	return ((t.tv_sec * 1000) + (t.tv_usec / 1000));
 // }
 
+void    drawdebug(t_program *prg)
+{
+	int         i;
+    char		*pixel;
+
+	i = 0;
+	int y = 0;
+	ft_memset(prg->mlx_img.data, 0, WIN_HORI * WIN_VERT);
+	while (WIN_HORI > i)
+	{
+		y = 0;
+		while (WIN_VERT > y)
+		{
+		pixel = prg->mlx_img.data + i * prg->mlx_img.size_line + y * prg->mlx_img.bpp / 8;
+		if ( y > WIN_VERT * 0.8)
+		     *(int *)pixel = 0x00FFF000 + i/2 - y/2;
+		else if ( y > WIN_VERT * 0.6)
+		     *(int *)pixel = 0x000FF000 + i/2 - y/2;
+		else if ( y > WIN_VERT * 0.4)
+		     *(int *)pixel = 0x0000FF00 + i/2 - y/2;
+		else if ( y > WIN_VERT * 0.2)
+		     *(int *)pixel = 0x00F0F0F0 + i/2 - y/2;
+		else if ( y > WIN_VERT * 0.1)
+		     *(int *)pixel = 0x00F0F00F + i/2 - y/2;
+		y++;
+		}
+		i++;
+	}
+	if (i == 0)
+		return ;
+	mlx_clear_window(prg->mlx, prg->mlx_win);
+    mlx_put_image_to_window(prg->mlx, prg->mlx_win, prg->mlx_img.image, 0, 0);
+	mlx_string_put(prg->mlx, prg->mlx_win, 50, 50, 0x00FFF00, "Top left");
+	mlx_string_put(prg->mlx, prg->mlx_win, WIN_HORI - 50, 50, 0x00FFF00, "Top RIGHT");
+	mlx_string_put(prg->mlx, prg->mlx_win, WIN_HORI - 50, WIN_VERT - 50, 0x00FFF00, "Bottom Right");
+	mlx_string_put(prg->mlx, prg->mlx_win, 50, WIN_VERT - 50, 0x00FFF00, "Bottom left");
+
+}
+
 int    raycast(t_program *prg)
 {
     t_map_i     *map;
@@ -213,7 +248,10 @@ int    raycast(t_program *prg)
         write(1, "Superfatal error 4\n", 20);
         return (1);
     }
-    draw(prg);
+	if (1)
+		draw(prg);
+	else
+		drawdebug(prg);
 	calls++;
 	printf("%i calls\n", calls);
     return (0);
