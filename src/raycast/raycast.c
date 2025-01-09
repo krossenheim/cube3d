@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/09 17:18:13 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/09 17:19:25 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,11 +149,7 @@ int calls = 0;
 
 void    set_wall_color(t_ray_cast *ray)
 {
-    int     maxindex = 4;
-    int     colors[] = {0x00FF0000, 0x00FF0000, 1677214, 1671100, 825000};
-
-	ray->wall_val = ray->wall_val % maxindex;
-    ray->wall_color = (int) colors[ray->wall_val];
+    ray->wall_color = 0x00FF0000;
 	if (ray->side == 1)
         ray->wall_color /= 2;
 }
