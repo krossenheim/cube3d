@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/03 23:30:52 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/04 14:44:55 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/09 19:20:21 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ void    clean_map_raw(void *content)
     free(node);
 }
 
-bool    ones_and_zeros_only(char *str)
+static bool    numerical_only(char *str)
 {
     while (str && *str)
     {
-        if (*str != '1' && *str != '0')
+        if (!(*str <= '9' && *str >= '0'))
             return (false);
         str++;
     }
@@ -80,7 +80,7 @@ bool    valid_map(t_list *rawmap)
 	started = false;
     while (rawmap)
     {
-		if (!ones_and_zeros_only((char *) rawmap->content))
+		if (!numerical_only((char *) rawmap->content))
         {
             printf("Notty: '%s'\n", (char *) rawmap->content);
             write(1, "k", 1);
