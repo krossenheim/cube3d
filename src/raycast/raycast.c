@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/19 15:36:23 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/19 15:45:07 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 void    init_ray(t_player *player, int col, t_ray_cast *ray)
 {
-    ray->camera_x = 2 * col / ((double) WIN_HORI) -1;
-    ray->dir_x = player->dir_x + player->plane_x * ray->camera_x;
-    ray->dir_y = player->dir_y + player->plane_y * ray->camera_x;
-    ray->start_x = (int)player->pos_x;
-    ray->start_y = (int)player->pos_y;
-    ray->delta_dist_x = (ray->dir_x == 0) ? __DBL_MAX__ : fabs(1 / ray->dir_x);
-    ray->delta_dist_y = (ray->dir_y == 0) ? __DBL_MAX__ : fabs(1 / ray->dir_y);
+	ray->camera_x = 2 * col / ((double) WIN_HORI) -1;
+	ray->dir_x = player->dir_x + player->plane_x * ray->camera_x;
+	ray->dir_y = player->dir_y + player->plane_y * ray->camera_x;
+	ray->start_x = (int)player->pos_x;
+	ray->start_y = (int)player->pos_y;
+	ray->delta_dist_x = (ray->dir_x < 0.00001) ? __DBL_MAX__ : fabs(1 / ray->dir_x);
+	ray->delta_dist_y = (ray->dir_y < 0.00001) ? __DBL_MAX__ : fabs(1 / ray->dir_y);
 	// printf("Dellxy:: %f,%f\n", ray->delta_dist_x, ray->delta_dist_y);
-    ray->hit = 0;
+	ray->hit = 0;
 }
 
 void    calc_offset_x_y(t_ray_cast *ray, t_player *player)
 {
-	if (ray->dir_x < 0)
+	if (fabs(ray->dir_x) < 0.00001)
 	{
 		ray->step_x = -1;
 		ray->side_dist_x = (player->pos_x - ray->start_x) * ray->delta_dist_x;
@@ -37,7 +37,7 @@ void    calc_offset_x_y(t_ray_cast *ray, t_player *player)
 		ray->step_x = 1;
 		ray->side_dist_x = (ray->start_x + 1.0 - player->pos_x) * ray->delta_dist_x;
 	}
-	if (ray->dir_y < 0)
+	if (fabs(ray->dir_y) < 0.00001)
 	{
 		ray->step_y = -1;
 		ray->side_dist_y = (player->pos_y - ray->start_y) * ray->delta_dist_y;
@@ -98,7 +98,7 @@ void    calc_lineheight(t_ray_cast *ray)
 void    ver_line(int x, t_ray_cast *ray, t_program *prg)
 {
     char    *pixel;
-    int     y;
+    double	y;
 
     if(ray->draw_end < ray->draw_start)
     {
@@ -108,16 +108,16 @@ void    ver_line(int x, t_ray_cast *ray, t_program *prg)
     }
     if(ray->draw_end < 0 || ray->draw_start >= WIN_VERT  || x < 0 || x >= WIN_HORI)
 		return ;
-    if (ray->draw_start < 0)
+    if (fabs(ray->draw_start) < 0)
 		ray->draw_start = 0;
-	if(ray->draw_end >= WIN_VERT)
+	if(fabs(ray->draw_end) >= WIN_VERT)
 		ray->draw_end = WIN_VERT - 1;
     y = ray->draw_start;
     while (y < ray->draw_end)
     {
         pixel = prg->mlx_img.data
-         + y * prg->mlx_img.size_line
-         + x * prg->mlx_img.bpp / 8;
+         + (int) y * prg->mlx_img.size_line
+         + (int) x * prg->mlx_img.bpp / 8;
 		*(int *)pixel = ray->wall_color;
 		y++;
     }
