@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/09 20:05:42 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/19 15:36:23 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,53 +27,53 @@ void    init_ray(t_player *player, int col, t_ray_cast *ray)
 
 void    calc_offset_x_y(t_ray_cast *ray, t_player *player)
 {
-    if (ray->dir_x < 0)
-      {
-        ray->step_x = -1;
-        ray->side_dist_x = (player->pos_x - ray->start_x) * ray->delta_dist_x;
-      }
-      else
-      {
-        ray->step_x = 1;
-        ray->side_dist_x = (ray->start_x + 1.0 - player->pos_x) * ray->delta_dist_x;
-      }
-      if (ray->dir_y < 0)
-      {
-        ray->step_y = -1;
-        ray->side_dist_y = (player->pos_y - ray->start_y) * ray->delta_dist_y;
-      }
-      else
-      {
-        ray->step_y = 1;
-        ray->side_dist_y = (ray->start_y + 1.0 - player->pos_y) * ray->side_dist_y;
-      }
+	if (ray->dir_x < 0)
+	{
+		ray->step_x = -1;
+		ray->side_dist_x = (player->pos_x - ray->start_x) * ray->delta_dist_x;
+	}
+	else
+	{
+		ray->step_x = 1;
+		ray->side_dist_x = (ray->start_x + 1.0 - player->pos_x) * ray->delta_dist_x;
+	}
+	if (ray->dir_y < 0)
+	{
+		ray->step_y = -1;
+		ray->side_dist_y = (player->pos_y - ray->start_y) * ray->delta_dist_y;
+	}
+	else
+	{
+		ray->step_y = 1;
+		ray->side_dist_y = (ray->start_y + 1.0 - player->pos_y) * ray->side_dist_y;
+	}
 }
 
 void      check_on_grid_only(t_ray_cast *ray, t_map_i *map)
 {
-      while (ray->hit == 0)
-      {
-        //jump to next map square, either in x-direction, or in y-direction
-        if (ray->side_dist_x < ray->side_dist_y)
-        {
-          ray->side_dist_x += ray->delta_dist_x;
-          ray->start_x += ray->step_x;
-          ray->side = 0;
-        }
-        else
-        {
-          ray->delta_dist_y += ray->delta_dist_y;
-          ray->start_y += ray->step_y;
-          ray->side = 1;
-        }
-        //Check if ray has hit a wall
-        if (map->map[ray->start_x][ray->start_y] > 0)
-        {
-            ray->wall_val = map->map[ray->start_x][ray->start_y];
-            ray->hit = 1;
+	while (ray->hit == 0)
+	{
+		//jump to next map square, either in x-direction, or in y-direction
+		if (ray->side_dist_x < ray->side_dist_y)
+		{
+			ray->side_dist_x += ray->delta_dist_x;
+			ray->start_x += ray->step_x;
+			ray->side = 0;
+		}
+		else
+		{
+			ray->delta_dist_y += ray->delta_dist_y;
+			ray->start_y += ray->step_y;
+			ray->side = 1;
+		}
+		//Check if ray has hit a wall
+		if (map->map[ray->start_x][ray->start_y] > 0)
+		{
+			ray->wall_val = map->map[ray->start_x][ray->start_y];
+			ray->hit = 1;
 			printf("Hit wall xy/val: '%i,%i/%i\n", ray->start_x, ray->start_y, ray->wall_val);
-        }
-      }
+		}
+	}
 }
 
 void    set_perpendicular_distance(t_ray_cast *ray)
@@ -88,10 +88,10 @@ void    calc_lineheight(t_ray_cast *ray)
 {
     ray->line_height = (int)(WIN_VERT / ray->perpend_dist);
     ray->draw_start = -ray->line_height / 2 + WIN_VERT / 2;
-    if (ray->draw_start < 0)
+    if (fabs(ray->draw_start) < 0.01)
         ray->draw_start = 0;
     ray->draw_end = ray->line_height / 2 + WIN_VERT / 2;
-    if (ray->draw_end > WIN_VERT)
+    if (fabs(ray->draw_end) > WIN_VERT)
         ray->draw_end = WIN_VERT -1;
 }
 
@@ -115,26 +115,6 @@ void    ver_line(int x, t_ray_cast *ray, t_program *prg)
     y = ray->draw_start;
     while (y < ray->draw_end)
     {
-        // (640, 480, 3)
-
-        // mlx_img.data[0] // pixel 0,0 (R)
-        // mlx_img.data[1] // pixel 0,0 (G)
-        // mlx_img.data[2] // pixel 0,0 (B)
-        // mlx_img.data[3] // pixel 1,0 (R)
-        // mlx_img.data[4] // pixel 1,0 (G)
-        // mlx_img.data[5] // pixel 1,0 (B)
-
-
-        // // BYTES_PER_PIXEL = 3 // color
-        // // BYTES_PER_PIXEL = 1 // grayscale
-
-        // x = 0
-        // y = 1
-        // mlx_img.data + y * WIN_HORI + x * 3
-        // mlx_img.data + 640 + 0 = 640
-
-
-
         pixel = prg->mlx_img.data
          + y * prg->mlx_img.size_line
          + x * prg->mlx_img.bpp / 8;
@@ -145,11 +125,23 @@ void    ver_line(int x, t_ray_cast *ray, t_program *prg)
 }
 int calls = 0;
 
+// void    set_wall_color(t_ray_cast *ray, int mapped_wall_val)
+// {
+// 	if (0 && mapped_wall_val) // !!
+// 		return ;
+// 	if (ray->side == 1)
+// 		ray->wall_val = (ray->step_x > 0) ? 0x00FF0000 : 0x00A00F0F;
+// 	else
+// 		ray->wall_val = (ray->step_y > 0) ? 1677214 : 1671100;
+// }
+
 void    set_wall_color(t_ray_cast *ray, int mapped_wall_val)
 {
 	int     maxindex = 6;
 	int     colors[] = {0x00FF0000, 0x00000F0F,0x00FF00FF, 1677214, 1671100, 825000};
 
+	if (ray->side == 1)
+		mapped_wall_val++;
 	ray->wall_val = mapped_wall_val % maxindex;
 	ray->wall_color = (int) colors[ray->wall_val];
 	if (ray->side == 1)

@@ -61,11 +61,14 @@ OBJS	=	$(SOURCES:%.c=%.o)
 NAME = cube3d.out
 
 MLX_LIB_DIR = mlx_linux
+DEPENDENCIES = $(OBJS:.o=.d)
 
-CFLAGS	=	-Wall	-Wextra	-Werror -g -I ./includes/ -Lmlx_linux -lmlx_Linux -L/usr/lib -I ./mlx_linux/ -lXext -lX11 -lm -lz
+CFLAGS	=	-Wall	-Wextra	-Werror -MMD -g -I ./includes/ -Lmlx_linux -lmlx_Linux -L/usr/lib -I ./mlx_linux/ -lXext -lX11 -lm -lz
 
-$(NAME): $(OBJS) mlx_lib
+$(NAME): $(OBJS) $(DEPENDENCIES) mlx_lib
 	cc $(OBJS) $(CFLAGS) -g -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+
+-include $(DEPENDENCIES)
 
 mlx_lib:
 	$(MAKE) -C $(MLX_LIB_DIR)
@@ -78,10 +81,10 @@ run:
 	./cube3d.out
 
 clean:
-	rm	-f	$(OBJS) $(NAME)
+	rm	-f	$(OBJS) $(DEPENDENCIES) $(NAME)
 
 fclean:
-	rm	-f	$(OBJS) $(NAME)
+	rm	-f	$(OBJS) $(DEPENDENCIES) $(NAME)
 	$(MAKE) -C $(MLX_LIB_DIR)  clean
 
 
