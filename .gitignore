@@ -2,3 +2,4 @@
 .vscode/settings.json
 *cube3d.out*.d
 *.d
+*.out

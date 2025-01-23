@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/21 15:32:33 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/19 15:43:26 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/23 12:08:13 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		escape_pressed(void *address)
 	return (1);
 }
 
-double speedmoving = 1;
+double speedmoving = 2;
 
 int		move_forward(void *address)
 {

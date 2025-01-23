@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/21 10:10:48 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/23 12:03:26 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <float.h>
 # define BUFFER_SIZE 1
 # include "debug.h"
-# define WIN_HORI 600//1280
-# define WIN_VERT 600//1024
+# define WIN_HORI 1200//1280
+# define WIN_VERT 1024//1024
 # define WIN_NAME "Cube3D"
 # include "keys.h"
 # include "libft.h"

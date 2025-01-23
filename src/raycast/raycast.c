@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/23 12:02:36 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/23 12:13:10 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void      check_on_grid_only(t_ray_cast *ray, t_map_i *map)
 		{
 			ray->wall_val = map->map[ray->start_x][ray->start_y];
 			ray->hit = 1;
-			printf("Hit wall xy/val: '%i,%i/%i\n", ray->start_x, ray->start_y, ray->wall_val);
+			//printf("Hit wall xy/val: '%i,%i/%i\n", ray->start_x, ray->start_y, ray->wall_val);
 		}
 	}
 }
