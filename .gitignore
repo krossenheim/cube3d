@@ -3,3 +3,4 @@
 *cube3d.out*.d
 *.d
 *.out
+.cube_debug_file

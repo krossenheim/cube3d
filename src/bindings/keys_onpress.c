@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/21 15:32:33 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/23 12:21:13 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/23 14:13:06 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int		move_forward(void *address)
 		p->player.pos_x += p->player.dir_x * speedmoving;
 	if (maparray[(int)p->player.pos_x][(int)(p->player.pos_y + p->player.dir_y * speedmoving)] == 0)
 		p->player.pos_y += p->player.dir_y * speedmoving;
-	printf("Player pos: %f,%f\n", p->player.pos_x, p->player.pos_y);
 	return (1);
 }
 
@@ -56,7 +55,6 @@ int		move_back(void *address)
 		p->player.pos_x -= p->player.dir_x * speedmoving;
 	if (maparray[(int)p->player.pos_x][(int)(p->player.pos_y - p->player.dir_y * speedmoving)] == 0)
 		p->player.pos_y -= p->player.dir_y * speedmoving;
-	printf("Player pos: %f,%f\n", p->player.pos_x, p->player.pos_y);
 	return (1);
 }
 
@@ -73,7 +71,6 @@ int		strafe_left(void *address)
 		p->player.pos_x -= p->player.dir_x * speedmoving;
 	if (maparray[(int)p->player.pos_x][(int)(p->player.pos_y + p->player.dir_x * speedmoving)] == 0)
 		p->player.pos_y += p->player.dir_y * speedmoving;
-	printf("Player pos: %f,%f\n", p->player.pos_x, p->player.pos_y);
 	return (1);
 }
 
@@ -91,7 +88,6 @@ int		strafe_right(void *address)
 		p->player.pos_x += p->player.dir_x * speedmoving;
 	if (maparray[(int)p->player.pos_x][(int)(p->player.pos_y - p->player.dir_x * speedmoving)] == 0)
 		p->player.pos_y -= p->player.dir_y * speedmoving;
-	printf("Player pos: %f,%f\n", p->player.pos_x, p->player.pos_y);
 	return (1);
 }
 

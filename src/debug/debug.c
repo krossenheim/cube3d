@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 14:15:50 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/23 14:09:37 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/23 14:15:22 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static void player_export_info(t_player *player)
         exit(55);
     }
 	
-	fprintf(file, "Player position: %.2f, %.2f ", player->pos_x,  player->pos_y);
-	fprintf(file, "Player direction: %.2f, %.2f ", player->dir_x,  player->dir_y);
-	fprintf(file, "Player plane: %.2f, %.2f ", player->plane_x,  player->plane_y);
+	fprintf(file, "Player position: %.4f, %.4f ", player->pos_x,  player->pos_y);
+	fprintf(file, "Player direction: %.4f, %.4f ", player->dir_x,  player->dir_y);
+	fprintf(file, "Player plane: %.4f, %.4f ", player->plane_x,  player->plane_y);
 
 	fclose(file);
 }

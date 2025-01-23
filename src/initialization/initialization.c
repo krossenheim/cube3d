@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 14:04:40 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/09 06:54:23 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/23 14:11:26 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static bool    initialize_mlx(t_program *prg)
         free(prg->mlx);
 		return (false);
     }
-    prg->mlx_img.bpp = sizeof(int);
 	prg->mlx_img.data = mlx_get_data_addr(prg->mlx_img.image,
                             &prg->mlx_img.bpp, &prg->mlx_img.size_line, &prg->mlx_img.type);
     if (!prg->mlx_img.data)
