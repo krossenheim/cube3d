@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/23 12:03:26 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/23 12:42:18 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,17 @@
 # include <stdlib.h>
 # include <math.h>
 # include <float.h>
-# define BUFFER_SIZE 1
-# include "debug.h"
+# include <fcntl.h>
 # define WIN_HORI 1200//1280
 # define WIN_VERT 1024//1024
 # define WIN_NAME "Cube3D"
 # include "keys.h"
 # include "libft.h"
+
+/// 
+# define BUFFER_SIZE 1
+# include "debug.h"
+///
 
 typedef struct s_ray_cast 
 {   
