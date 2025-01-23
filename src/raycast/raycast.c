@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/23 13:58:13 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/23 14:23:07 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ void      check_on_grid_only(t_ray_cast *ray, t_map_i *map)
 void    set_perpendicular_distance(t_ray_cast *ray)
 {
 	if (ray->side == 0)
-		ray->perpend_dist = ray->side_dist_x;
+		ray->perpend_dist = ray->side_dist_x - ray->delta_dist_x;
 	else
-		ray->perpend_dist = ray->side_dist_y;
+		ray->perpend_dist = ray->side_dist_y - ray->delta_dist_y;
 }
 
 void    calc_lineheight(t_ray_cast *ray)

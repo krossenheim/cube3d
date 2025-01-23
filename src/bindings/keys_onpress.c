@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/21 15:32:33 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/23 14:13:06 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/23 14:20:20 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,11 @@ int		rotate_left(void *address)
 	p->player.plane_x = p->player.plane_x * cos(speedturning) - p->player.plane_y * sin(speedturning);
 	p->player.plane_y = oldpx * sin(speedturning) + p->player.plane_y * cos(speedturning);
 	
-	p->player.dir_x = (fabs(p->player.dir_x) < 0.000001) ? 0 : p->player.dir_x;
-	p->player.dir_y = (fabs(p->player.dir_y) < 0.000001) ? 0 : p->player.dir_y;
+	p->player.dir_x = (fabs(p->player.dir_x) < 1e-6) ? 0 : p->player.dir_x;
+	p->player.dir_y = (fabs(p->player.dir_y) < 1e-6) ? 0 : p->player.dir_y;
 	
-	p->player.plane_x = (fabs(p->player.plane_x) < 0.000001) ? 0 : p->player.plane_x;
-	p->player.plane_y = (fabs(p->player.plane_y) < 0.000001) ? 0 : p->player.plane_y;
+	p->player.plane_x = (fabs(p->player.plane_x) < 1e-6) ? 0 : p->player.plane_x;
+	p->player.plane_y = (fabs(p->player.plane_y) < 1e-6) ? 0 : p->player.plane_y;
 	
 	return (1);
 }
@@ -134,10 +134,10 @@ int		rotate_right(void *address)
 	p->player.plane_x = p->player.plane_x * cos(speedturning) - p->player.plane_y * sin(speedturning);
 	p->player.plane_y = oldpx * sin(speedturning) + p->player.plane_y * cos(speedturning);
 	
-	p->player.dir_x = (fabs(p->player.dir_x) < 0.000001) ? 0 : p->player.dir_x;
-	p->player.dir_y = (fabs(p->player.dir_y) < 0.000001) ? 0 : p->player.dir_y;
+	p->player.dir_x = (fabs(p->player.dir_x) < 1e-6) ? 0 : p->player.dir_x;
+	p->player.dir_y = (fabs(p->player.dir_y) < 1e-6) ? 0 : p->player.dir_y;
 	
-	p->player.plane_x = (fabs(p->player.plane_x) < 0.000001) ? 0 : p->player.plane_x;
-	p->player.plane_y = (fabs(p->player.plane_y) < 0.000001) ? 0 : p->player.plane_y;
+	p->player.plane_x = (fabs(p->player.plane_x) < 1e-6) ? 0 : p->player.plane_x;
+	p->player.plane_y = (fabs(p->player.plane_y) < 1e-6) ? 0 : p->player.plane_y;
 	return (1);
 }
