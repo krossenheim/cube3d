@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/21 10:26:17 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/23 12:02:36 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void    init_ray(t_player *player, int col, t_ray_cast *ray)
 	ray->dir_y = player->dir_y + player->plane_y * ray->camera_x;
 	ray->start_x = (int)floor(player->pos_x);
 	ray->start_y = (int)floor(player->pos_y);
-	ray->delta_dist_x = (ray->dir_x < 0.00001) ? __DBL_MAX__ : fabs(1 / ray->dir_x);
-	ray->delta_dist_y = (ray->dir_y < 0.00001) ? __DBL_MAX__ : fabs(1 / ray->dir_y);
+	ray->delta_dist_x = (ray->dir_x < 1e-6) ? __DBL_MAX__ : fabs(1 / ray->dir_x);
+	ray->delta_dist_y = (ray->dir_y < 1e-6) ? __DBL_MAX__ : fabs(1 / ray->dir_y);
 	// printf("Dellxy:: %f,%f\n", ray->delta_dist_x, ray->delta_dist_y);
 	ray->hit = 0;
 }
@@ -67,7 +67,9 @@ void      check_on_grid_only(t_ray_cast *ray, t_map_i *map)
 			ray->side = 1;
 		}
 		//Check if ray has hit a wall
-		if (map->map[ray->start_x][ray->start_y] > 0)
+		if (ray->start_x >= 0 && ray->start_x <= map->rows &&
+        	ray->start_y >= 0 && ray->start_y <= map->cols &&
+			map->map[ray->start_x][ray->start_y] > 0)
 		{
 			ray->wall_val = map->map[ray->start_x][ray->start_y];
 			ray->hit = 1;
@@ -100,18 +102,14 @@ void    ver_line(int x, t_ray_cast *ray, t_program *prg)
     char    *pixel;
     int		y;
 
-    if(ray->draw_end < ray->draw_start)
-    {
-        return ;
-    }
-    if(ray->draw_end < 0 || ray->draw_start >= WIN_VERT  || x < 0 || x >= WIN_HORI)
-		return ;
-    if (fabs(ray->draw_start) < 0)
+	if (ray->draw_end < ray->draw_start || ray->draw_start >= WIN_VERT)
+		return;
+	if (ray->draw_start < 0)
 		ray->draw_start = 0;
-	if(fabs(ray->draw_end) >= WIN_VERT)
+	if (ray->draw_end >= WIN_VERT)
 		ray->draw_end = WIN_VERT - 1;
     y = ray->draw_start;
-    while (y < ray->draw_end)
+    while (y <= ray->draw_end)
     {
         pixel = prg->mlx_img.data
          + (int) y * prg->mlx_img.size_line
@@ -162,7 +160,7 @@ void    draw(t_program *prg)
         check_on_grid_only(&ray, map);
         set_perpendicular_distance(&ray);
         calc_lineheight(&ray);
-        set_wall_color(&ray, map->map[(int)player->pos_x][(int)player->pos_y]);
+        set_wall_color(&ray, ray.wall_val);
         ver_line(i, &ray, prg);
 		i++;
 	}
