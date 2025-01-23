@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 16:52:18 by jose-lop      #+#    #+#                 */
-/*   Updated: 2024/10/18 11:50:52 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/23 14:02:11 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ int    exit_clean(t_program *prog)
     free(prog->mlx);
     free(prog->keys);
     free(prog);
+    remove(DEBUG_TEMP_FILENAME);
     exit(0);
 }

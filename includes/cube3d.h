@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/20 13:53:19 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/23 12:42:18 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/23 14:09:54 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,14 @@
 # include <math.h>
 # include <float.h>
 # include <fcntl.h>
-# define WIN_HORI 1200//1280
-# define WIN_VERT 1024//1024
+# define WIN_HORI 900//1280
+# define WIN_VERT 600//1024
 # define WIN_NAME "Cube3D"
 # include "keys.h"
 # include "libft.h"
 
-/// 
+/// Ugly
 # define BUFFER_SIZE 1
-# include "debug.h"
 ///
 
 typedef struct s_ray_cast 
@@ -115,13 +114,18 @@ char		*get_next_line(int fd);
 //Parse map
 bool		parse_map(t_program *prog);
 
-//debug
-int			debug_keypress(void *address, int key);
-void		printmap(t_map_i *ma);
-
 // Init player
 bool    	init_player(t_program *prg);
 
 //raycast 
 int			raycast(t_program *prg);
+
+// Debug
+# define DEBUG_TEMP_FILENAME ".cube_debug_file"
+void	debug_info_to_screen(t_program *prg);
+int		debug_keypress(void *address, int key);
+void	printmap(t_map_i *ma);
+// Debug
+
+
 #endif
