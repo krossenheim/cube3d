@@ -6,7 +6,7 @@
 /*   By: jose-lop <jose-lop@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/04 15:03:28 by jose-lop      #+#    #+#                 */
-/*   Updated: 2025/01/23 14:23:07 by jose-lop      ########   odam.nl         */
+/*   Updated: 2025/01/23 17:43:50 by jose-lop      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void    init_ray(t_player *player, int col, t_ray_cast *ray)
 	ray->dir_y = player->dir_y + player->plane_y * ray->camera_x;
 	ray->start_x = (int)floor(player->pos_x);
 	ray->start_y = (int)floor(player->pos_y);
-	ray->delta_dist_x = (ray->dir_x < 1e-8) ? __DBL_MAX__ : fabs(1 / ray->dir_x);
-	ray->delta_dist_y = (ray->dir_y < 1e-8) ? __DBL_MAX__ : fabs(1 / ray->dir_y);
+	ray->delta_dist_x = (ray->dir_x < 1e-6) ? __DBL_MAX__ : fabs(1 / ray->dir_x);
+	ray->delta_dist_y = (ray->dir_y < 1e-6) ? __DBL_MAX__ : fabs(1 / ray->dir_y);
 	// printf("Dellxy:: %f,%f\n", ray->delta_dist_x, ray->delta_dist_y);
 	ray->hit = 0;
 }
@@ -32,7 +32,7 @@ void    calc_offset_x_y(t_ray_cast *ray, t_player *player)
 		ray->step_x = -1;
 		ray->side_dist_x = (player->pos_x - ray->start_x) * ray->delta_dist_x;
 	}
-	else
+	else if (ray->dir_x > 0)
 	{
 		ray->step_x = 1;
 		ray->side_dist_x = (ray->start_x + 1.0 - player->pos_x) * ray->delta_dist_x;
@@ -42,7 +42,7 @@ void    calc_offset_x_y(t_ray_cast *ray, t_player *player)
 		ray->step_y = -1;
 		ray->side_dist_y = (player->pos_y - ray->start_y) * ray->delta_dist_y;
 	}
-	else
+	else if (ray->dir_y > 0)
 	{
 		ray->step_y = 1;
 		ray->side_dist_y = (ray->start_y + 1.0 - player->pos_y) * ray->delta_dist_y;
@@ -90,7 +90,7 @@ void    calc_lineheight(t_ray_cast *ray)
 {
     ray->line_height = (int)(WIN_VERT / ray->perpend_dist);
     ray->draw_start = -ray->line_height / 2 + WIN_VERT / 2;
-    if (fabs(ray->draw_start) < 0.0001)
+    if (fabs(ray->draw_start) < 1e-6)
         ray->draw_start = 0;
     ray->draw_end = ray->line_height / 2 + WIN_VERT / 2;
     if (fabs(ray->draw_end) > WIN_VERT)
